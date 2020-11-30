@@ -21,7 +21,7 @@ submitForm.addEventListener("submit", event => {
 
 //FETCH REQUESTS
 const fetchCityWeather = (cityId,apiKey) => {
-  fetch(`${baseUrl}?id=${cityId}&appid=${apiKey}`)
+  fetch(`${baseUrl}?id=${cityId}&units=imperial&appid=${apiKey}`)
     .then(r => r.json())
     .then(cityWeather => {
         console.log(cityWeather)
@@ -50,18 +50,21 @@ const renderWeather = (weather) => {
     windDiv.innerHTML = `
     <h3>Wind</h3>
     <p>${weather.wind.deg} Degrees</p>
-    <p>${weather.wind.speed} meters per second</p>
+    <p>${weather.wind.speed} MPH</p>
     `
     tempDiv.innerHTML= `
     <h3>Temperature</h3>
-    <p>Feels Like: ${weather.main.feels_like}K</p>
-    <p>Humidity: ${weather.main.humidity}</p>
-    <p>Temperature: ${weather.main.temp}K</p>
-    <p>Max Temp: ${weather.main.temp_max}K</p>
-    <p>Min Temp: ${weather.main.temp_min}K</p>
+    <p>Feels Like: ${weather.main.feels_like}F</p>
+    <p>Humidity: ${weather.main.humidity}%</p>
+    <p>Temperature: ${weather.main.temp}F</p>
+    <p>Max Temp: ${weather.main.temp_max}F</p>
+    <p>Min Temp: ${weather.main.temp_min}F</p>
     `
     miscDiv.innerHTML = `
-    <h3>
+    <h3>Misc</h3>
+    <p>Sunrise: ${weather.sys.sunrise} UTC</p>
+    <p>Sunset: ${weather.sys.sunset} UTC</p>
+    <p>Visibility: ${weather.visibility} meters</p>
     `
 //   weatherDiv.textContent = `Current Weather: ${weather.weather[0].description}`
 }
