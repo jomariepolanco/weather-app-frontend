@@ -3,8 +3,6 @@ const baseUrl = 'http://api.openweathermap.org/data/2.5/weather'
 const key = config.SECRET_API_KEY
 let currentUser = 0
 
-const andover = '4146039'
-const syracuse = '5140405'
 
 //DOM ELEMENTS
 const weatherDiv = document.querySelector('#weather')
@@ -17,12 +15,21 @@ const tempDiv = document.querySelector('#temperature')
 const miscDiv = document.querySelector('#miscellaneous')
 const logBtn = document.querySelector('#log-btn')
 const contentDiv = document.querySelector('#content')
-
+const loginForm = document.querySelector('#login-form')
+const sandbox = document.querySelector('#sandbox')
 
 //EVENT LISTENERS
+
+loginForm.addEventListener('submit', event => {
+    event.preventDefault()
+    const setUser = event.target.username.value
+    fetchAllUsers(setUser)
+    console.log(currentUser)
+    //not a great idea but should work
+})
+
 submitForm.addEventListener("submit", event => {
     event.preventDefault()
-    
 })
 
 sidebar.addEventListener("click", event => {
@@ -36,7 +43,8 @@ logBtn.addEventListener("click", ({target}) => {
     if (currentUser === 0) {
         currentUser = 1
         logBtn.textContent = "Log Out"
-        fetchCityNames(currentUser)
+        fetchAllUsers()
+        .then()
         //renderSetUserForm- this just fake login and out
         //this will contain renderWeather()
     } else {
@@ -57,14 +65,20 @@ const fetchCityWeather = (cityId,apiKey) => {
     })
 }
 
-const fetchCityNames = userId => {
-    if (currentUser != 0) {
-    fetch(`http://localhost:3000/users/${userId}`)
+// const fetchCityNames = userId => {
+//     if (currentUser != 0) {
+//     fetch(`http://localhost:3000/users/${userId}`)
+//     .then(r => r.json())
+//     .then(userData => {
+//         console.log(userData)
+//         renderSideBar(userData)
+//     })}
+// }
+
+const fetchAllUsers = (setUser) => {
+    return fetch(`http://localhost:3000/users/`)
     .then(r => r.json())
-    .then(userData => {
-        console.log(userData)
-        renderSideBar(userData)
-    })}
+    .then(users => setCurrentUser(users, setUser))
 }
 
 const autocompleteCountries = () => {
@@ -120,6 +134,16 @@ const renderWeather = (weather) => {
     <p>Sunset: ${weather.sys.sunset} UTC</p>
     <p>Visibility: ${weather.visibility} meters</p>
     `
+}
+
+const setCurrentUser = (users, setUser) => {
+    const setUserObj = users.find(user => user.username === setUser)
+    renderSideBar(setUserObj)
+    sidebar.style.display = ""
+    loginForm.style.display = "none"
+    contentDiv.style.display = ""
+    fetchCityWeather(setUserObj.cities[0].search_id,key)
+    logBtn.textContent = "Log Out"
 }
 
 
