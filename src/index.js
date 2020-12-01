@@ -23,7 +23,8 @@ submitForm.addEventListener("submit", event => {
 })
 
 sidebar.addEventListener("click", event => {
-    if(event.target.tagName === "DIV") {
+    console.log(event.target.dataset.id)
+    if(event.target.tagName === "H3") {
         fetchCityWeather(event.target.dataset.id, key)
     }
 })
@@ -33,7 +34,7 @@ const fetchCityWeather = (cityId,apiKey) => {
   fetch(`${baseUrl}?id=${cityId}&units=imperial&appid=${apiKey}`)
     .then(r => r.json())
     .then(cityWeather => {
-        console.log(cityWeather)
+        // console.log(cityWeather)
         renderWeather(cityWeather)
     })
 }
@@ -54,11 +55,11 @@ const autocompleteCountries = () => {
 //RENDER FUNCTIONS
 
 const renderSideBar = userObj => {
-    const div = document.createElement("div")
     userObj.cities.forEach(city => {
+        const div = document.createElement("div")
         div.className = city.name 
-        div.dataset.id = city.search_id
         const h3 = document.createElement("h3")
+        h3.dataset.id = city.search_id
         h3.textContent = city.name 
         div.append(h3)
         sidebar.append(div)
@@ -100,6 +101,7 @@ const renderWeather = (weather) => {
 
 const initialize = () => {
   fetchCityWeather(syracuse, key)
+  fetchCityNames(4)
 }
 
 initialize()
