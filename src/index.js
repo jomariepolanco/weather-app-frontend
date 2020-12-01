@@ -1,12 +1,14 @@
 //STATE AND BASEURL
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather'
 const key = config.SECRET_API_KEY
+
 const andover = '4146039'
 const syracuse = '5140405'
 
 //DOM ELEMENTS
 const weatherDiv = document.querySelector('#weather')
 const submitForm = document.querySelector('#search-cities')
+const sidebar = document.querySelector('#sidebar')
 const currentCity = document.querySelector('#current-city')
 const cloudsDiv = document.querySelector('#clouds')
 const windDiv = document.querySelector('#wind')
@@ -20,6 +22,12 @@ submitForm.addEventListener("submit", event => {
     
 })
 
+sidebar.addEventListener("click", event => {
+    if(event.target.tagName === "DIV") {
+        fetchCityWeather(event.target.dataset.id, key)
+    }
+})
+
 //FETCH REQUESTS
 const fetchCityWeather = (cityId,apiKey) => {
   fetch(`${baseUrl}?id=${cityId}&units=imperial&appid=${apiKey}`)
@@ -30,6 +38,12 @@ const fetchCityWeather = (cityId,apiKey) => {
     })
 }
 
+const fetchCityNames = userId => {
+    fetch(`http://localhost:3000/users/${userId}`)
+    .then(r => r.json())
+    .then(userData => renderSideBar(userData))
+}
+
 const autocompleteCountries = () => {
     fetch('http://localhost:3000/cities')
     .then(r => r.json())
@@ -38,6 +52,18 @@ const autocompleteCountries = () => {
 // renderWeather(cityWeather)
 
 //RENDER FUNCTIONS
+
+const renderSideBar = userObj => {
+    const div = document.createElement("div")
+    userObj.cities.forEach(city => {
+        div.className = city.name 
+        div.dataset.id = city.search_id
+        const h3 = document.createElement("h3")
+        h3.textContent = city.name 
+        div.append(h3)
+        sidebar.append(div)
+    })
+}
 
 const renderWeather = (weather) => {
     currentCity.innerHTML = `
