@@ -1,42 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script type="text/javascript" src="./config.js"></script>
-    <script defer src= "./src/index.js"></script>
+    <script defer src="./src/index.js"></script>
     <link rel="stylesheet" href="./styles/styles.css">
     <!-- refactor to modules later -->
 </head>
-<body>
+
+<body class="parent">
+    <nav class="navbar">
+        <div class="navbar-item">Text Alerts</div>
+        <div id="log-btn" class="navbar-item align-right">Log In</div>
+    </nav>
+
     <div id="sidebar">
         <div class="user-city-title">
             <h2 style="text-decoration: underline;">City Names</h2>
+            <!-- maybe refactor so the bar can be cleared on log out -->
         </div>
     </div>
 
-    <form id="search-cities" autocomplete="off">
-        <div class="autocomplete">
-            <input type="text" name="city" value="Enter Search Here">
-            <input type="text" name="city" value="Enter Search Here">
-        </div>
-        <input type="submit" name="submit-city" value="Submit">
-    </form>
+    <div id="content" class="content">
+        <form id="search-cities" autocomplete="off">
+            <div class="autocomplete">
+                <input type="text" name="city" value="City...">
+                <input type="text" name="country" value="Country...">
+            </div>
+            <input type="submit" name="submit-city" value="Submit">
+        </form>
 
-    <div id="weather-container">
-        <div id="current-city">
-            <!-- city data -->
+        <div id="weather-container">
+            <div id="current-city">
+                <!-- city data -->
+            </div>
+            <div id="clouds">
+                <!-- cloud data -->
+            </div>
+            <div id="wind">
+                <!-- wind data -->
+            </div>
+            <div id="temperature"></div>
+            <div id="miscellaneous"></div>
         </div>
-        <div id="clouds">
-            <!-- cloud data -->
-        </div>
-        <div id="wind">
-            <!-- wind data -->
-        </div>
-        <div id="temperature"></div>
-        <div id="miscellaneous"></div>
     </div>
-    
 </body>
+
 </html>

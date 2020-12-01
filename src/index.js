@@ -1,6 +1,7 @@
 //STATE AND BASEURL
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather'
 const key = config.SECRET_API_KEY
+let currentUser = 0
 
 const andover = '4146039'
 const syracuse = '5140405'
@@ -14,6 +15,8 @@ const cloudsDiv = document.querySelector('#clouds')
 const windDiv = document.querySelector('#wind')
 const tempDiv = document.querySelector('#temperature')
 const miscDiv = document.querySelector('#miscellaneous')
+const logBtn = document.querySelector('#log-btn')
+const contentDiv = document.querySelector('#content')
 
 
 //EVENT LISTENERS
@@ -23,11 +26,26 @@ submitForm.addEventListener("submit", event => {
 })
 
 sidebar.addEventListener("click", event => {
-    console.log(event.target.dataset.id)
+    // console.log(event.target.dataset.id)
     if(event.target.tagName === "H3") {
         fetchCityWeather(event.target.dataset.id, key)
     }
 })
+
+logBtn.addEventListener("click", ({target}) => {
+    if (currentUser === 0) {
+        currentUser = 1
+        logBtn.textContent = "Log Out"
+        fetchCityNames(currentUser)
+        //renderSetUserForm- this just fake login and out
+        //this will contain renderWeather()
+    } else {
+        currentUser = 0
+        logBtn.textContent = "Log In"
+        alert("You have successfully logged out.")
+    }
+})
+
 
 //FETCH REQUESTS
 const fetchCityWeather = (cityId,apiKey) => {
@@ -40,9 +58,13 @@ const fetchCityWeather = (cityId,apiKey) => {
 }
 
 const fetchCityNames = userId => {
+    if (currentUser != 0) {
     fetch(`http://localhost:3000/users/${userId}`)
     .then(r => r.json())
-    .then(userData => renderSideBar(userData))
+    .then(userData => {
+        console.log(userData)
+        renderSideBar(userData)
+    })}
 }
 
 const autocompleteCountries = () => {
@@ -50,7 +72,7 @@ const autocompleteCountries = () => {
     .then(r => r.json())
     .then()
 }
-// renderWeather(cityWeather)
+
 
 //RENDER FUNCTIONS
 
@@ -63,6 +85,10 @@ const renderSideBar = userObj => {
         h3.textContent = city.name 
         div.append(h3)
         sidebar.append(div)
+        /*renderWeather(userObj.home) create migration for
+        home city for user so that it can be used to populate
+        the content. creates a faux login, but allows us to
+        swap users */
     })
 }
 
@@ -94,14 +120,15 @@ const renderWeather = (weather) => {
     <p>Sunset: ${weather.sys.sunset} UTC</p>
     <p>Visibility: ${weather.visibility} meters</p>
     `
-//   weatherDiv.textContent = `Current Weather: ${weather.weather[0].description}`
 }
+
+
 
 //INITIALIZE
 
-const initialize = () => {
-  fetchCityWeather(syracuse, key)
-  fetchCityNames(4)
-}
+// const initialize = () => {
+// //   fetchCityWeather(syracuse, key)
+//   fetchCityNames(currentUser)
+// }
 
-initialize()
+// initialize()
