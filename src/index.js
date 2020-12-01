@@ -1,5 +1,6 @@
 //STATE AND BASEURL
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather'
+const key = config.SECRET_API_KEY
 const andover = '4146039'
 const syracuse = '5140405'
 
@@ -72,7 +73,7 @@ const renderWeather = (weather) => {
 //INITIALIZE
 
 const initialize = () => {
-  fetchCityWeather(syracuse,'c8c7e5d5fe8413c8c85426305dcc87e0')
+  fetchCityWeather(syracuse, key)
 }
 
 initialize()
