@@ -24,7 +24,6 @@ loginForm.addEventListener('submit', event => {
     event.preventDefault()
     const setUser = event.target.username.value
     fetchAllUsers(setUser)
-    console.log(currentUser)
     //not a great idea but should work
 })
 
@@ -39,19 +38,13 @@ sidebar.addEventListener("click", event => {
     }
 })
 
-logBtn.addEventListener("click", ({target}) => {
-    if (currentUser === 0) {
-        currentUser = 1
-        logBtn.textContent = "Log Out"
-        fetchAllUsers()
-        .then()
-        //renderSetUserForm- this just fake login and out
-        //this will contain renderWeather()
-    } else {
-        currentUser = 0
-        logBtn.textContent = "Log In"
-        alert("You have successfully logged out.")
-    }
+logBtn.addEventListener("click", (event) => {
+    currentUser = 0
+    sidebar.style.display = "none"
+    contentDiv.style.visibility = "hidden"
+    loginForm.style.display = ""
+    alert("You have successfully logged out.")
+    loginForm.reset()
 })
 
 
@@ -59,10 +52,7 @@ logBtn.addEventListener("click", ({target}) => {
 const fetchCityWeather = (cityId,apiKey) => {
   fetch(`${baseUrl}?id=${cityId}&units=imperial&appid=${apiKey}`)
     .then(r => r.json())
-    .then(cityWeather => {
-        // console.log(cityWeather)
-        renderWeather(cityWeather)
-    })
+    .then(cityWeather => renderWeather(cityWeather))
 }
 
 // const fetchCityNames = userId => {
@@ -138,10 +128,11 @@ const renderWeather = (weather) => {
 
 const setCurrentUser = (users, setUser) => {
     const setUserObj = users.find(user => user.username === setUser)
-    renderSideBar(setUserObj)
+    currentUser = setUserObj
     sidebar.style.display = ""
+    renderSideBar(setUserObj)
     loginForm.style.display = "none"
-    contentDiv.style.display = ""
+    contentDiv.style.visibility = "visible"
     fetchCityWeather(setUserObj.cities[0].search_id,key)
     logBtn.textContent = "Log Out"
 }

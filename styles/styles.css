@@ -3,17 +3,17 @@ for where things will sit and how the user experience
 will be */
 
 /* GRID SETUP */
-.parent {
+/* .parent {
 
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(8, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  }
+  } */
   
 /* MAIN HEADER */
-.navbar { 
+/* .navbar { 
  
   grid-area: 1 / 1 / 2 / 13;
   border: 1px solid black;
@@ -30,17 +30,16 @@ will be */
   border: 1px;
 }
 
-/* SIDEBAR */
+
 #sidebar { 
   grid-area: 2 / 1 / 9 / 3; 
   border: 1px solid black; 
   padding: 20px; 
 }
 
-/* CONTENT DIV */
 .content { 
   grid-area: 2 / 3 / 9 / 13;
   border: 1px solid black; 
   padding: 30px; 
 }
-
+ */
