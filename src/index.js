@@ -6,7 +6,6 @@ let currentUser = 0
 
 //DOM ELEMENTS
 const weatherDiv = document.querySelector('#weather')
-const submitForm = document.querySelector('#search-cities')
 const sidebar = document.querySelector('#sidebar')
 const currentCity = document.querySelector('#current-city')
 const cloudsDiv = document.querySelector('#clouds')
@@ -36,10 +35,6 @@ loginForm.addEventListener('submit', event => {
     //not a great idea but should work
 })
 
-submitForm.addEventListener("submit", event => {
-    event.preventDefault()
-})
-
 sidebar.addEventListener("click", event => {
     // console.log(event.target.dataset.id)
     if(event.target.tagName === "H3") {
@@ -56,25 +51,13 @@ logBtn.addEventListener("click", (event) => {
     loginForm.reset()
 })
 
-
-
-
 //FETCH REQUESTS
+
 const fetchCityWeather = (cityId,apiKey) => {
   fetch(`${baseUrl}?id=${cityId}&units=imperial&appid=${apiKey}`)
     .then(r => r.json())
     .then(cityWeather => renderWeather(cityWeather))
 }
-
-// const fetchCityNames = userId => {
-//     if (currentUser != 0) {
-//     fetch(`http://localhost:3000/users/${userId}`)
-//     .then(r => r.json())
-//     .then(userData => {
-//         console.log(userData)
-//         renderSideBar(userData)
-//     })}
-// }
 
 const fetchAllUsers = (setUser) => {
     return fetch(`http://localhost:3000/users/`)
@@ -93,7 +76,6 @@ const fetchOneCity = (city) => {
     .then(r => r.json())
     .then(cities => {
         if (cities.length > 1) {
-
             renderChooseCorrectCity(cities)
         } else {
             fetchCityWeather(cities[0].search_id, key)
@@ -154,6 +136,7 @@ const renderWeather = (weather) => {
 const setCurrentUser = (users, setUser) => {
     const setUserObj = users.find(user => user.username === setUser)
     currentUser = setUserObj
+
     sidebar.style.display = ""
     renderSideBar(setUserObj)
     loginForm.style.display = "none"
@@ -163,6 +146,8 @@ const setCurrentUser = (users, setUser) => {
 }
 
 const renderChooseCorrectCity = (cities) => {
+    /* this should be made into a modal instead */
+
     contentDiv.style.display = "none"
 
     const chooseDiv = document.createElement('div')
@@ -172,7 +157,6 @@ const renderChooseCorrectCity = (cities) => {
     h1.textContent = "Did you mean..."
     chooseDiv.append(h1)
     
-    /* Need to make the  */
     cities.forEach(city => {
         const div = document.createElement('div')
         div.dataset.search_id = city.search_id
@@ -184,9 +168,6 @@ const renderChooseCorrectCity = (cities) => {
     chooseDiv.addEventListener('click', ({target}) => {
         if (target.tagName === 'DIV') {
             fetchCityWeather(target.dataset.search_id, key)
-
-            /* The sandbox HTML needs to be refactored so that everything can be rendered
-            and just have the innerHTML cleared.*/
         }
     })
 }
