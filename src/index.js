@@ -17,8 +17,17 @@ const logBtn = document.querySelector('#log-btn')
 const contentDiv = document.querySelector('#content')
 const loginForm = document.querySelector('#login-form')
 const sandbox = document.querySelector('#sandbox')
+const searchForm = document.querySelector('#search-cities')
+
 
 //EVENT LISTENERS
+
+searchForm.addEventListener('submit', event => {
+    event.preventDefault()
+    const city = event.target.city.value
+    fetchOneCity(city)
+    searchForm.reset()
+})
 
 loginForm.addEventListener('submit', event => {
     event.preventDefault()
@@ -41,11 +50,13 @@ sidebar.addEventListener("click", event => {
 logBtn.addEventListener("click", (event) => {
     currentUser = 0
     sidebar.style.display = "none"
-    contentDiv.style.visibility = "hidden"
+    contentDiv.style.display = "none"
     loginForm.style.display = ""
     alert("You have successfully logged out.")
     loginForm.reset()
 })
+
+
 
 
 //FETCH REQUESTS
@@ -71,12 +82,24 @@ const fetchAllUsers = (setUser) => {
     .then(users => setCurrentUser(users, setUser))
 }
 
-const autocompleteCountries = () => {
+const fetchAllCities = () => {
     fetch('http://localhost:3000/cities')
     .then(r => r.json())
-    .then()
+    .then(cities => console.log("hi"))
 }
 
+const fetchOneCity = (city) => {
+    return fetch(`http://localhost:3000/search/${city}`)
+    .then(r => r.json())
+    .then(cities => {
+        if (cities.length > 1) {
+
+            renderChooseCorrectCity(cities)
+        } else {
+            fetchCityWeather(cities[0].search_id, key)
+        }
+    })
+}
 
 //RENDER FUNCTIONS
 
@@ -97,6 +120,8 @@ const renderSideBar = userObj => {
 }
 
 const renderWeather = (weather) => {
+    contentDiv.style.display = ""
+
     currentCity.innerHTML = `
         <h3>${weather.name}</h3>
         <p>${weather.sys.country}</p>
@@ -132,18 +157,36 @@ const setCurrentUser = (users, setUser) => {
     sidebar.style.display = ""
     renderSideBar(setUserObj)
     loginForm.style.display = "none"
-    contentDiv.style.visibility = "visible"
+    contentDiv.style.display = ""
     fetchCityWeather(setUserObj.cities[0].search_id,key)
     logBtn.textContent = "Log Out"
 }
 
+const renderChooseCorrectCity = (cities) => {
+    contentDiv.style.display = "none"
 
+    const chooseDiv = document.createElement('div')
+    chooseDiv.id = "chooseDiv"
 
-//INITIALIZE
+    const h1 = document.createElement('h1')
+    h1.textContent = "Did you mean..."
+    chooseDiv.append(h1)
+    
+    /* Need to make the  */
+    cities.forEach(city => {
+        const div = document.createElement('div')
+        div.dataset.search_id = city.search_id
+        div.textContent = `City: ${city.name}, State: ${city.state}, Country: ${city.country}`
+        chooseDiv.append(div)
+    })
+    sandbox.append(chooseDiv)
 
-// const initialize = () => {
-// //   fetchCityWeather(syracuse, key)
-//   fetchCityNames(currentUser)
-// }
+    chooseDiv.addEventListener('click', ({target}) => {
+        if (target.tagName === 'DIV') {
+            fetchCityWeather(target.dataset.search_id, key)
 
-// initialize()
+            /* The sandbox HTML needs to be refactored so that everything can be rendered
+            and just have the innerHTML cleared.*/
+        }
+    })
+}

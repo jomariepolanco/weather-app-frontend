@@ -7,6 +7,7 @@
     <title>Document</title>
     <script type="text/javascript" src="./config.js"></script>
     <script defer src="./src/index.js"></script>
+    <script defer type="text/javascipt" src="./src/autocomplete.js"></script>
     <link rel="stylesheet" href="./styles/styles.css">
     <!-- refactor to modules later -->
 </head>
@@ -32,15 +33,14 @@
                 <input type="submit" name="submit-btn" value="Log In">
             </form>
         </div>
-        <div id="content" class="content" style="visibility: hidden;">
+        <div id="content" class="content" style="display: none;">
             <form id="search-cities" autocomplete="off">
-                <div class="autocomplete">
-                    <input type="text" name="city" value="City...">
-                    <input type="text" name="country" value="Country...">
+                <div class="autocomplete" style="width:300px;">
+                    <input id="city-input" type="text" name="city" value="City...">
                 </div>
                 <input type="submit" name="submit-city" value="Submit">
             </form>
-
+           
             <div id="weather-container">
                 <div id="current-city">
                     <!-- city data -->
