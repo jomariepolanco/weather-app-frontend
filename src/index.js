@@ -148,22 +148,21 @@ const setCurrentUser = (users, setUser) => {
 const renderChooseCorrectCity = (cities) => {
     /* this should be made into a modal instead */
 
-    contentDiv.style.display = "none"
+    // contentDiv.style.display = "none"
 
-    const chooseDiv = document.createElement('div')
-    chooseDiv.id = "chooseDiv"
+    const modal = document.querySelector('#modal')
+    modal.style.display = ""
 
     const h1 = document.createElement('h1')
     h1.textContent = "Did you mean..."
-    chooseDiv.append(h1)
+    modal.append(h1)
     
     cities.forEach(city => {
         const div = document.createElement('div')
         div.dataset.search_id = city.search_id
         div.textContent = `City: ${city.name}, State: ${city.state}, Country: ${city.country}`
-        chooseDiv.append(div)
+        modal.append(div)
     })
-    sandbox.append(chooseDiv)
 
     chooseDiv.addEventListener('click', ({target}) => {
         if (target.tagName === 'DIV') {
