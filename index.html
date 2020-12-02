@@ -41,7 +41,7 @@
         <div id="content" class="content" style="display: none;">
             <form id="search-cities" autocomplete="off">
                 <div class="autocomplete" style="width:300px;">
-                    <input id="city-input" type="text" name="city" value="City...">
+                    <input id="city-input" type="text" name="city">
                 </div>
                 <input type="submit" name="submit-city" value="Submit">
             </form>
@@ -60,6 +60,11 @@
                 <div id="miscellaneous"></div>
                 <button class="add-city">Delete City</button>
             </div>
+        </div>
+        <div id="modal" style="display: none;" data-action="close">
+            <form id="choose-city-form">
+
+            </form>
         </div>
     </main>
 </body>
