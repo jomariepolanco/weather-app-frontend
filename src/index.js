@@ -5,7 +5,7 @@ let currentUser = 0
 
 
 //DOM ELEMENTS
-const weatherDiv = document.querySelector('#weather')
+const weatherDiv = document.querySelector('#weather-container')
 const sidebar = document.querySelector('#sidebar')
 const currentCity = document.querySelector('#current-city')
 const cloudsDiv = document.querySelector('#clouds')
@@ -18,9 +18,28 @@ const loginForm = document.querySelector('#login-form')
 const sandbox = document.querySelector('#sandbox')
 const searchForm = document.querySelector('#search-cities')
 const signup = document.querySelector('#signup')
+const cityBtn = document.querySelector(".add-city")
 
 
 //EVENT LISTENERS
+
+cityBtn.addEventListener("click", (event) => {
+    if (cityBtn.textContent == "Delete City") {
+        fetchUserCities()
+        .then(userCityData => {
+            const ucArr = userCityData.filter(uc => uc.user_id == currentUser.id)
+            const ucObj = ucArr.find(uc => uc.city_id == document.querySelector(`[data-id='${event.target.dataset.id}']`).dataset.id)
+            // debugger
+            deleteUserCity(ucObj.id)
+            document.querySelector(`[data-id='${event.target.dataset.id}']`).remove()
+            console.log("successfully deleted")
+        })
+    } else if (cityBtn.textContent == "Add City") {
+        fetchAllCities()
+    }
+    // createNewUserCity(newUserCity)
+        // console.log(newUserCity)
+})
 
 signup.addEventListener('click', () => {
     loginForm['submit-btn'].value = "Sign Up"
@@ -33,6 +52,7 @@ signup.addEventListener('click', () => {
         createNewUserPost(newUserObj)
     })
 })
+
 loginForm.addEventListener('submit', event => {
     event.preventDefault()
     const setUser = event.target.username.value
@@ -65,6 +85,25 @@ logBtn.addEventListener("click", () => {
 })
 
 //FETCH REQUESTS
+const createNewUserCity = userCityObj => {
+    fetch('http://localhost:3000/user_cities', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(userCityObj)
+    })
+    .then(r => r.json())
+    .then(newData => console.log('Success', newData))
+}
+
+const fetchUserCities = () => {
+    return fetch('http://localhost:3000/user_cities')
+    .then(r => r.json())
+}
+const deleteUserCity = (id) => {
+    fetch(`http://localhost:3000/user_cities/${id}`, {
+        method: "DELETE"
+    })
+}
 
 const createNewUserPost = (userObj) => {
     fetch('http://localhost:3000/users', {
@@ -88,9 +127,17 @@ const fetchAllUsers = (setUser) => {
 }
 
 const fetchAllCities = () => {
-    fetch('http://localhost:3000/cities')
+    return fetch('http://localhost:3000/cities')
     .then(r => r.json())
-    .then(cities => console.log("hi"))
+    .then(cities => {
+        const newUserCity = {
+            user_id: currentUser.id,
+            city_id: Array.from(cities.find(city => city.search_id == cityBtn.dataset.search)),
+            want_texts: false
+        }
+        console.log(newUserCity)
+    // .then(cities => console.log(cities))
+    })
 }
 
 const fetchOneCity = (city) => {
@@ -108,14 +155,17 @@ const fetchOneCity = (city) => {
 //RENDER FUNCTIONS
 
 const renderSideBar = userObj => {
+    sidebar.innerHTML= ""
     userObj.cities.forEach(city => {
         const div = document.createElement("div")
         div.className = city.name 
+        div.dataset.id = city.id 
         const h3 = document.createElement("h3")
         h3.dataset.id = city.search_id
         h3.textContent = city.name 
         div.append(h3)
         sidebar.append(div)
+        cityBtn.dataset.id = city.id 
         /*renderWeather(userObj.home) create migration for
         home city for user so that it can be used to populate
         the content. creates a faux login, but allows us to
@@ -153,6 +203,13 @@ const renderWeather = (weather) => {
     <p>Sunset: ${weather.sys.sunset} UTC</p>
     <p>Visibility: ${weather.visibility} meters</p>
     `
+    cityBtn.dataset.search = weather.id 
+    const sideBarContent = Array.from(sidebar.querySelectorAll("div")).map(div => div.textContent)
+    if (sideBarContent.includes(weather.name)) {
+        cityBtn.textContent = "Delete City"
+    } else {
+        cityBtn.textContent = "Add City"
+    }
 }
 
 const setCurrentUser = (users, setUser) => {
