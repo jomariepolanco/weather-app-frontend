@@ -17,9 +17,28 @@ const contentDiv = document.querySelector('#content')
 const loginForm = document.querySelector('#login-form')
 const sandbox = document.querySelector('#sandbox')
 const searchForm = document.querySelector('#search-cities')
+const signup = document.querySelector('#signup')
 
 
 //EVENT LISTENERS
+
+signup.addEventListener('click', () => {
+    loginForm['submit-btn'].value = "Sign Up"
+    loginForm.addEventListener('submit', event => {
+        const newUserObj = {
+            username: event.target.username.value,
+            name: event.target.name.value,
+            phone_number: event.target['phone-number'].value
+        }
+        createNewUserPost(newUserObj)
+    })
+})
+loginForm.addEventListener('submit', event => {
+    event.preventDefault()
+    const setUser = event.target.username.value
+    fetchAllUsers(setUser)
+    //not a great idea but should work
+})
 
 searchForm.addEventListener('submit', event => {
     event.preventDefault()
@@ -28,12 +47,6 @@ searchForm.addEventListener('submit', event => {
     searchForm.reset()
 })
 
-loginForm.addEventListener('submit', event => {
-    event.preventDefault()
-    const setUser = event.target.username.value
-    fetchAllUsers(setUser)
-    //not a great idea but should work
-})
 
 sidebar.addEventListener("click", event => {
     // console.log(event.target.dataset.id)
@@ -42,7 +55,7 @@ sidebar.addEventListener("click", event => {
     }
 })
 
-logBtn.addEventListener("click", (event) => {
+logBtn.addEventListener("click", () => {
     currentUser = 0
     sidebar.style.display = "none"
     contentDiv.style.display = "none"
@@ -53,6 +66,15 @@ logBtn.addEventListener("click", (event) => {
 
 //FETCH REQUESTS
 
+const createNewUserPost = (userObj) => {
+    fetch('http://localhost:3000/users', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(userObj)
+    })
+    .then(r => r.json())
+    .then(newUser => fetchAllUsers(newUser.username))
+}
 const fetchCityWeather = (cityId,apiKey) => {
   fetch(`${baseUrl}?id=${cityId}&units=imperial&appid=${apiKey}`)
     .then(r => r.json())
