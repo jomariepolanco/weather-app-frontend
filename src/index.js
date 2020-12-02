@@ -147,26 +147,28 @@ const setCurrentUser = (users, setUser) => {
 
 const renderChooseCorrectCity = (cities) => {
     /* this should be made into a modal instead */
-
     // contentDiv.style.display = "none"
 
     const modal = document.querySelector('#modal')
-    modal.style.display = ""
+    modal.style.display = "block"
+    const chooseCityForm = document.querySelector('#choose-city-form')
 
     const h1 = document.createElement('h1')
     h1.textContent = "Did you mean..."
-    modal.append(h1)
+    chooseCityForm.append(h1)
     
     cities.forEach(city => {
         const div = document.createElement('div')
         div.dataset.search_id = city.search_id
         div.textContent = `City: ${city.name}, State: ${city.state}, Country: ${city.country}`
-        modal.append(div)
+        chooseCityForm.append(div)
     })
 
-    chooseDiv.addEventListener('click', ({target}) => {
+    chooseCityForm.addEventListener('click', ({target}) => {
         if (target.tagName === 'DIV') {
             fetchCityWeather(target.dataset.search_id, key)
+            chooseCityForm.innerHTML = ""
+            modal.style.display = "none"
         }
     })
 }

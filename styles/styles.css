@@ -105,3 +105,25 @@ input[type=submit] {
   background-color: DodgerBlue !important; 
   color: #ffffff; 
 }
+
+
+
+
+
+/*  Keep these styles. They just need to be adjusted */
+#modal {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+#choose-city-form {
+  background-color: rgb(9, 155, 240);
+  margin-top: 20vh;
+  width: 600px;
+  margin: 20vh auto 0;
+}
