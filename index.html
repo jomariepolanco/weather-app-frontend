@@ -12,22 +12,33 @@
     <!-- refactor to modules later -->
 </head>
 
-<body class="parent">
-    <nav class="navbar">
-        <div class="navbar-item">Text Alerts</div>
-        <div id="log-btn" class="navbar-item align-right">Log In</div>
-        <div id="signup">Sign Up</div>
-    </nav>
+<body>
+    <header class="navbar">
+        <h3>Weather App</h3>
+        <ul>
+            <li>
+                <a href="#" class="navbar-item">Text Alerts</a>
+            </li>
+            <li>
+                <a href="#" id="log-btn" class="navbar-item align-right">Log In</a>
+            </li>
+            <li>
+                <a href="#" id="signup">Sign Up</a>
+            </li>
+        </ul>
+    </header>
 
-    <div id="sidebar" style="display: none;">
-        <div class="user-city-title">
-            <h2 style="text-decoration: underline;">City Names</h2>
-            <!-- maybe refactor so the bar can be cleared on log out -->
+    <nav>
+        <div id="sidebar" style="display: none;">
+            <div class="user-city-title">
+                <h2 style="text-decoration: underline;">City Names</h2>
+                <!-- maybe refactor so the bar can be cleared on log out -->
+            </div>
         </div>
-    </div>
+    </nav>
+    <main>
 
-    <main id="sandbox">
-        <div>
+        <div class="login-form-container">
             <form id="login-form">
                 <label>Username:</label>
                 <input type="text" name="username">
@@ -38,6 +49,7 @@
                 <input type="submit" name="submit-btn" value="Log In">
             </form>
         </div>
+
         <div id="content" class="content" style="display: none;">
             <form id="search-cities" autocomplete="off">
                 <div class="autocomplete" style="width:300px;">

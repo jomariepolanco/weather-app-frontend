@@ -1,6 +1,58 @@
 /* Basic grid set up to just begin getting the feel
 for where things will sit and how the user experience
 will be */
+body {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-areas:
+    "nav nav"
+    "sidebar main";
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 80px 1fr;
+  row-gap: 10px;
+  column-gap: 15px;
+}
+
+header {
+  padding-top: 5px;
+  grid-area: nav;
+  border: 2px solid red;
+}
+
+header h3 {
+  float: left;
+  letter-spacing: 2px;
+}
+
+header ul {
+  list-style-type: none;
+  overflow: hidden;
+}
+
+header li {
+  display: inline;
+  list-style: none;
+  float: right;
+}
+
+header a {
+  display: block;
+  text-decoration: none;
+  padding: 8px;
+  color: black;
+  letter-spacing: 2px;
+}
+
+nav {
+  grid-area: sidebar;
+  border: 2px solid green;
+}
+
+main {
+  grid-area: main;
+  border: 2px solid blue;
+}
 
 /* GRID SETUP */
 /* .parent {
