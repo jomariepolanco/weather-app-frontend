@@ -4,7 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <title>Weather App</title>
     <script type="text/javascript" src="./config.js"></script>
     <script defer src="./src/index.js"></script>
     <script defer type="text/javascipt" src="./src/autocomplete.js"></script>
@@ -12,34 +18,53 @@
     <!-- refactor to modules later -->
 </head>
 
-<body class="parent">
-    <nav class="navbar">
-        <div class="navbar-item">Text Alerts</div>
-        <div id="log-btn" class="navbar-item align-right">Log In</div>
-        <div id="signup">Sign Up</div>
+<body>
+    <nav>
+
+        <div class="navbar nav-wrapper blue lighten-2">
+            <a href="#" class="logo">Weather App</a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="#" class="navbar-item">Text Alerts</a>
+                </li>
+                <li>
+                    <a href="#" id="log-btn" class="navbar-item align-right">Log In</a>
+                </li>
+                <li>
+                    <a href="#" id="signup">Sign Up</a>
+                </li>
+            </ul>
+        </div>
     </nav>
-
-    <div id="sidebar" style="display: none;">
-        <div class="user-city-title">
-            <h2 style="text-decoration: underline;">City Names</h2>
+    <div class="row">
+        <div id="sidebar" style="display: none;">
+            <div class="user-city-title col s3">
+                <h2 style="text-decoration: underline;">City Names</h2>
             <!-- maybe refactor so the bar can be cleared on log out -->
+            </div>
         </div>
-    </div>
 
-    <main id="sandbox">
-        <div>
-            <form id="login-form">
-                <label>Username:</label>
-                <input type="text" name="username">
-                <label>Name:</label>
-                <input type="text" name="name">
-                <label>Phone Number:</label>
-                <input type="text" name="phone-number">
-                <input type="submit" name="submit-btn" value="Log In">
-            </form>
+    <main>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row">
+            <div class="card-panel white">
+                <form id="login-form">
+                    <label>Username:</label>
+                    <input type="text" name="username">
+                    <label>Name:</label>
+                    <input type="text" name="name">
+                    <label>Phone Number:</label>
+                    <input type="text" name="phone-number">
+                    <input type="submit" name="submit-btn" value="Log In">
+                </form>
+            </div>
         </div>
-        <div id="content" class="content" style="display: none;">
-            <form id="search-cities" autocomplete="off">
+        <div id="content" class="content col s9" style="display: none;">
+            <form id="search-cities" autocomplete="off" class="right">
                 <div class="autocomplete" style="width:300px;">
                     <input id="city-input" type="text" name="city">
                 </div>
@@ -60,6 +85,7 @@
                 <button class="add-city">Delete City</button>
             </div>
         </div>
+    </div>
         <div id="modal" style="display: none;" data-action="close">
             <form id="choose-city-form">
                 <!-- modal divs get temporarily rendered here -->

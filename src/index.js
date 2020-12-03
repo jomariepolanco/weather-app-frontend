@@ -18,6 +18,7 @@ const setCurrentUser = (users, setUser) => {
     renderSideBar(setUserObj)
     fetchCityWeather(setUserObj.cities[0].search_id, key)
 
+    document.querySelector(".card-panel").style.display = "none"
     loginForm.style.display = "none"
     contentDiv.style.display = ""
     sidebar.style.display = ""
