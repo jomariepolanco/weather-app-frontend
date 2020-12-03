@@ -93,14 +93,6 @@ searchForm.addEventListener('submit', event => {
     searchForm.reset()
 })
 
-
-// sidebar.addEventListener("click", ({target}) => {
-//     if(target.tagName === "H3") {
-//         const cityObj = fetchCityById(target.dataset.id)
-//         cityObj.then(city => setHoldACity(city))
-//         fetchCityWeather(target.dataset.search_id, key)
-//     }
-// })
 sidebar.addEventListener("click", ({ target }) => {
     if (target.tagName === "H3") {
         setHoldACity(target.dataset.id)
@@ -174,20 +166,6 @@ const fetchCityByName = (cityName) => {
         })
 }
 
-// const fetchAllCities = () => {
-//     return fetch('http://localhost:3000/cities')
-//     .then(r => r.json())
-//     .then(cities => {
-//         const newUserCity = {
-//             user_id: currentUser.id,
-//             city_id: Array.from(cities.find(city => city.search_id == cityBtn.dataset.search)),
-//             want_texts: false
-//         }
-//         console.log(newUserCity)
-//     // .then(cities => console.log(cities))
-//     })
-// }
-
 //FETCH REQUESTS TO WEATHER API
 
 const fetchCityWeather = (cityId, apiKey) => {
@@ -202,10 +180,6 @@ const fetchCityWeather = (cityId, apiKey) => {
 const renderSideBar = userObj => {
     sidebar.innerHTML = ""
     userObj.cities.forEach(city => renderSidebarObj(city))
-    /*renderWeather(userObj.home) create migration for
-    home city for user so that it can be used to populate
-    the content. creates a faux login, but allows us to
-    swap users */
 }
 
 const renderSidebarObj = (cityObj) => {
