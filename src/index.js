@@ -1,8 +1,33 @@
 //STATE AND BASEURL
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather'
 const key = config.SECRET_API_KEY
-let currentUser = 0
 
+let currentUser = 0
+let holdACity;
+
+const setCurrentUser = (users, setUser) => {
+    /* should be refactored as a login method that calls setCurrentUser the way that
+    setHoldACity works since half of this function has nothing to do with setting
+    the currentUser global variable */
+
+    const setUserObj = users.find(user => user.username === setUser)
+    
+    currentUser = setUserObj
+    setHoldACity(setUserObj.cities[0].id)
+
+    renderSideBar(setUserObj)
+    fetchCityWeather(setUserObj.cities[0].search_id, key)
+
+    loginForm.style.display = "none"
+    contentDiv.style.display = ""
+    sidebar.style.display = ""
+    logBtn.textContent = "Log Out"
+}
+
+const setHoldACity = (cityId) => {
+    fetchCityById(cityId)
+        .then(cityObj => holdACity = cityObj)
+}
 
 //DOM ELEMENTS
 const weatherDiv = document.querySelector('#weather-container')
@@ -25,20 +50,25 @@ const cityBtn = document.querySelector(".add-city")
 
 cityBtn.addEventListener("click", (event) => {
     if (cityBtn.textContent == "Delete City") {
-        fetchUserCities()
-        .then(userCityData => {
-            const ucArr = userCityData.filter(uc => uc.user_id == currentUser.id)
-            const ucObj = ucArr.find(uc => uc.city_id == document.querySelector(`[data-id='${event.target.dataset.id}']`).dataset.id)
-            // debugger
-            deleteUserCity(ucObj.id)
-            document.querySelector(`[data-id='${event.target.dataset.id}']`).remove()
-            console.log("successfully deleted")
-        })
+        // fetchUserCities()
+        //     .then(userCityData => {
+        //         const ucArr = userCityData.filter(uc => uc.user_id == currentUser.id)
+        //         const ucObj = ucArr.find(uc => uc.city_id == holdACity[0].id)
+        //         debugger
+        //         // deleteUserCity(ucObj.id)
+        //         // document.querySelector(`[data-id='${event.target.dataset.id}']`).remove()
+        //         // console.log("successfully deleted")
+        //     })
+        const userCityData = `${currentUser.id},${holdACity.id}`
+        deleteUserCity(userCityData)
     } else if (cityBtn.textContent == "Add City") {
-        fetchAllCities()
+        const newUserCityObj = {
+            user_id: currentUser.id,
+            city_id: holdACity[0].id,
+            want_texts: false,
+        }
+        createNewUserCity(newUserCityObj)
     }
-    // createNewUserCity(newUserCity)
-        // console.log(newUserCity)
 })
 
 signup.addEventListener('click', () => {
@@ -62,19 +92,25 @@ loginForm.addEventListener('submit', event => {
 
 searchForm.addEventListener('submit', event => {
     event.preventDefault()
-    const city = event.target.city.value
-    fetchOneCity(city)
+    const cityName = event.target.city.value
+    fetchCityByName(cityName)
     searchForm.reset()
 })
 
 
-sidebar.addEventListener("click", event => {
-    // console.log(event.target.dataset.id)
-    if(event.target.tagName === "H3") {
-        fetchCityWeather(event.target.dataset.id, key)
+// sidebar.addEventListener("click", ({target}) => {
+//     if(target.tagName === "H3") {
+//         const cityObj = fetchCityById(target.dataset.id)
+//         cityObj.then(city => setHoldACity(city))
+//         fetchCityWeather(target.dataset.search_id, key)
+//     }
+// })
+sidebar.addEventListener("click", ({ target }) => {
+    if (target.tagName === "H3") {
+        setHoldACity(target.dataset.id)
+        fetchCityWeather(target.dataset.search_id, key)
     }
 })
-
 logBtn.addEventListener("click", () => {
     currentUser = 0
     sidebar.style.display = "none"
@@ -84,23 +120,29 @@ logBtn.addEventListener("click", () => {
     loginForm.reset()
 })
 
-//FETCH REQUESTS
+//FETCH REQUESTS TO RAILS API
 const createNewUserCity = userCityObj => {
     fetch('http://localhost:3000/user_cities', {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userCityObj)
     })
-    .then(r => r.json())
-    .then(newData => console.log('Success', newData))
+        .then(r => r.json())
+        .then(newData => console.log('Success', newData))
 }
 
 const fetchUserCities = () => {
     return fetch('http://localhost:3000/user_cities')
-    .then(r => r.json())
+        .then(r => r.json())
 }
-const deleteUserCity = (id) => {
-    fetch(`http://localhost:3000/user_cities/${id}`, {
+
+// const deleteUserCity = (id) => {
+//     fetch(`http://localhost:3000/user_cities/${id}`, {
+//         method: "DELETE"
+//     })
+// }
+const deleteUserCity = (userCityData) => {
+    fetch(`http://localhost:3000/remove/${userCityData}`, {
         method: "DELETE"
     })
 }
@@ -108,64 +150,79 @@ const deleteUserCity = (id) => {
 const createNewUserPost = (userObj) => {
     fetch('http://localhost:3000/users', {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userObj)
     })
-    .then(r => r.json())
-    .then(newUser => fetchAllUsers(newUser.username))
-}
-const fetchCityWeather = (cityId,apiKey) => {
-  fetch(`${baseUrl}?id=${cityId}&units=imperial&appid=${apiKey}`)
-    .then(r => r.json())
-    .then(cityWeather => renderWeather(cityWeather))
+        .then(r => r.json())
+        .then(newUser => fetchAllUsers(newUser.username))
 }
 
 const fetchAllUsers = (setUser) => {
     return fetch(`http://localhost:3000/users/`)
-    .then(r => r.json())
-    .then(users => setCurrentUser(users, setUser))
+        .then(r => r.json())
+        .then(users => setCurrentUser(users, setUser))
 }
 
-const fetchAllCities = () => {
-    return fetch('http://localhost:3000/cities')
-    .then(r => r.json())
-    .then(cities => {
-        const newUserCity = {
-            user_id: currentUser.id,
-            city_id: Array.from(cities.find(city => city.search_id == cityBtn.dataset.search)),
-            want_texts: false
-        }
-        console.log(newUserCity)
-    // .then(cities => console.log(cities))
-    })
+const fetchCityById = (cityId) => {
+    return fetch(`http://localhost:3000/cities/${cityId}`)
+        .then(r => r.json())
 }
 
-const fetchOneCity = (city) => {
-    return fetch(`http://localhost:3000/search/${city}`)
-    .then(r => r.json())
-    .then(cities => {
-        if (cities.length > 1) {
-            renderChooseCorrectCity(cities)
-        } else {
-            fetchCityWeather(cities[0].search_id, key)
-        }
-    })
+const fetchCityByName = (cityName) => {
+    return fetch(`http://localhost:3000/search/${cityName}`)
+        .then(r => r.json())
+        .then(cities => {
+            if (cities.length > 1) {
+                renderChooseCorrectCity(cities)
+            } else if (cities.length === 1) {
+                holdACity = cities
+                fetchCityWeather(cities[0].search_id, key)
+            } else {
+                alert("That city does not exist.")
+            }
+        })
 }
+
+// const fetchAllCities = () => {
+//     return fetch('http://localhost:3000/cities')
+//     .then(r => r.json())
+//     .then(cities => {
+//         const newUserCity = {
+//             user_id: currentUser.id,
+//             city_id: Array.from(cities.find(city => city.search_id == cityBtn.dataset.search)),
+//             want_texts: false
+//         }
+//         console.log(newUserCity)
+//     // .then(cities => console.log(cities))
+//     })
+// }
+
+//FETCH REQUESTS TO WEATHER API
+
+const fetchCityWeather = (cityId, apiKey) => {
+    fetch(`${baseUrl}?id=${cityId}&units=imperial&appid=${apiKey}`)
+        .then(r => r.json())
+        .then(cityWeather => renderWeather(cityWeather))
+}
+
 
 //RENDER FUNCTIONS
 
 const renderSideBar = userObj => {
-    sidebar.innerHTML= ""
+    sidebar.innerHTML = ""
+
     userObj.cities.forEach(city => {
         const div = document.createElement("div")
-        div.className = city.name 
-        div.dataset.id = city.id 
+        div.className = city.name
         const h3 = document.createElement("h3")
-        h3.dataset.id = city.search_id
-        h3.textContent = city.name 
+        h3.dataset.id = city.id
+        h3.dataset.search_id = city.search_id
+        h3.textContent = city.name
+
         div.append(h3)
         sidebar.append(div)
-        cityBtn.dataset.id = city.id 
+
+        cityBtn.dataset.id = city.id
         /*renderWeather(userObj.home) create migration for
         home city for user so that it can be used to populate
         the content. creates a faux login, but allows us to
@@ -174,8 +231,9 @@ const renderSideBar = userObj => {
 }
 
 const renderWeather = (weather) => {
-    contentDiv.style.display = ""
+    // console.log(holdACity)
 
+    contentDiv.style.display = ""
     currentCity.innerHTML = `
         <h3>${weather.name}</h3>
         <p>${weather.sys.country}</p>
@@ -189,7 +247,7 @@ const renderWeather = (weather) => {
     <p>${weather.wind.deg} Degrees</p>
     <p>${weather.wind.speed} MPH</p>
     `
-    tempDiv.innerHTML= `
+    tempDiv.innerHTML = `
     <h3>Temperature</h3>
     <p>Feels Like: ${weather.main.feels_like}F</p>
     <p>Humidity: ${weather.main.humidity}%</p>
@@ -203,7 +261,7 @@ const renderWeather = (weather) => {
     <p>Sunset: ${weather.sys.sunset} UTC</p>
     <p>Visibility: ${weather.visibility} meters</p>
     `
-    cityBtn.dataset.search = weather.id 
+    cityBtn.dataset.search = weather.id
     const sideBarContent = Array.from(sidebar.querySelectorAll("div")).map(div => div.textContent)
     if (sideBarContent.includes(weather.name)) {
         cityBtn.textContent = "Delete City"
@@ -212,22 +270,8 @@ const renderWeather = (weather) => {
     }
 }
 
-const setCurrentUser = (users, setUser) => {
-    const setUserObj = users.find(user => user.username === setUser)
-    currentUser = setUserObj
-
-    sidebar.style.display = ""
-    renderSideBar(setUserObj)
-    loginForm.style.display = "none"
-    contentDiv.style.display = ""
-    fetchCityWeather(setUserObj.cities[0].search_id,key)
-    logBtn.textContent = "Log Out"
-}
 
 const renderChooseCorrectCity = (cities) => {
-    /* this should be made into a modal instead */
-    // contentDiv.style.display = "none"
-
     const modal = document.querySelector('#modal')
     modal.style.display = "block"
     const chooseCityForm = document.querySelector('#choose-city-form')
@@ -235,19 +279,22 @@ const renderChooseCorrectCity = (cities) => {
     const h1 = document.createElement('h1')
     h1.textContent = "Did you mean..."
     chooseCityForm.append(h1)
-    
+
     cities.forEach(city => {
         const div = document.createElement('div')
         div.dataset.search_id = city.search_id
+        div.dataset.rails_id = city.id
         div.textContent = `City: ${city.name}, State: ${city.state}, Country: ${city.country}`
         chooseCityForm.append(div)
     })
 
-    chooseCityForm.addEventListener('click', ({target}) => {
+    chooseCityForm.addEventListener('click', ({ target }) => {
         if (target.tagName === 'DIV') {
             fetchCityWeather(target.dataset.search_id, key)
+            setHoldACity(target.dataset.rails_id)
             chooseCityForm.innerHTML = ""
             modal.style.display = "none"
         }
     })
 }
+
