@@ -29,12 +29,14 @@
     </header>
 
     <nav>
-        <div id="sidebar" style="display: none;">
-            <div class="user-city-title">
-                <h2 style="text-decoration: underline;">City Names</h2>
-                <!-- maybe refactor so the bar can be cleared on log out -->
+        <aside>
+            <div id="sidebar" style="display: none;">
+                <div class="user-city-title">
+                    <h2 style="text-decoration: underline;">City Names</h2>
+                    <!-- maybe refactor so the bar can be cleared on log out -->
+                </div>
             </div>
-        </div>
+        </aside>
     </nav>
     <main>
 
@@ -49,27 +51,38 @@
                 <input type="submit" name="submit-btn" value="Log In">
             </form>
         </div>
-
+        
         <div id="content" class="content" style="display: none;">
-            <form id="search-cities" autocomplete="off">
-                <div class="autocomplete" style="width:300px;">
+            <form id="search-cities">
+                <!-- <div class="autocomplete" style="width:300px;"> -->
                     <input id="city-input" type="text" name="city">
-                </div>
-                <input type="submit" name="submit-city" value="Submit">
+                    <button id="submit-btn" type="submit" name="submit-city">
+                        <span>Search</span>
+                    </button>
+                    <!-- <input id="submit-btn" type="submit" name="submit-city" value=""> -->
+                <!-- </div> -->
             </form>
-            <div id="weather-container">
-                <div id="current-city">
-                    <!-- city data -->
+            <div class="flex-container">
+                <div id="weather-container">
+                <div class="box">
+                    <div id="current-city">
+                        <!-- city data -->
+                    </div>
+                    <div id="temperature"></div>
                 </div>
-                <div id="clouds">
-                    <!-- cloud data -->
+                <div class="box">
+                    <div id="clouds">
+                        <!-- cloud data -->
+                    </div>
+                    <div id="wind">
+                        <!-- wind data -->
+                    </div>
                 </div>
-                <div id="wind">
-                    <!-- wind data -->
+                <div class="box">
+                    <div id="miscellaneous"></div>
                 </div>
-                <div id="temperature"></div>
-                <div id="miscellaneous"></div>
-                <button class="add-city">Delete City</button>
+                    <button class="add-city">Delete City</button>
+                </div>
             </div>
         </div>
         <div id="modal" style="display: none;" data-action="close">

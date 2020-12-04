@@ -12,17 +12,22 @@ body {
   grid-template-rows: 80px 1fr;
   row-gap: 10px;
   column-gap: 15px;
+  font: 16px Arial;
+  box-sizing: border-box;
 }
+
+/**** HEADER ****/
 
 header {
   padding-top: 5px;
   grid-area: nav;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
 header h3 {
   float: left;
   letter-spacing: 2px;
+  color: dodgerblue;
 }
 
 header ul {
@@ -42,16 +47,95 @@ header a {
   padding: 8px;
   color: black;
   letter-spacing: 2px;
+  color: dodgerblue;
 }
+
+/**** SIDEBAR ****/
 
 nav {
   grid-area: sidebar;
-  border: 2px solid green;
+  box-shadow: 5px 10px dodgerblue;
+  border-top: 5px solid dodgerblue;
+  border-right: 5px solid dodgerblue;
 }
+
+aside {
+  position: fixed;
+  width: 25%;
+  height: 100vh;
+}
+
+#sidebar {
+  position: relative;
+  margin: 0 15%;
+  text-align: right;
+  top: 30%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  display: block;
+  transition: all ease-out 300ms;
+}
+
+#sidebar div {
+  position: relative;
+  margin: 3.2em 0;
+}
+
+#sidebar h3 {
+  line-height: 5em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#sidebar h3:hover {
+  color: dodgerblue;
+}
+
+/**** MAIN CONTENT ****/
+
+/**** SEARCH FORM ****/
+#search-cities {
+  float: right;
+}
+
+#city-input {
+  padding: 8px 15px;
+  background: rgba(97, 97, 97, 0.2);
+  border: 0px solid #dbdbdb;
+}
+
+#submit-btn {
+  position: relative;
+  padding: 6px 15px;
+  left: -8px;
+  border: 2px solid dodgerblue;
+  background-color: dodgerblue;
+  color: #fafafa;
+}
+
+/**** WEATHER INFO ****/
 
 main {
   grid-area: main;
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.box {
+  width: 300px;
+  height: 180px;
+  background-color: dodgerblue;
+  border: 1px white;
+  /* box-shadow: 5px 10px dodgerblue; */
+}
+
+#weather-container {
 }
 
 /* GRID SETUP */
@@ -96,15 +180,15 @@ main {
 }
  */
 
- {
+ /* {
   box-sizing: border-box;
-}
+} */
 
-body {
+/* body {
   font: 16px Arial;  
 }
 
-/*the container must be positioned relative:*/
+the container must be positioned relative:
 .autocomplete {
   position: relative;
   display: inline-block;
@@ -138,7 +222,7 @@ input[type=submit] {
   top: 100%;
   left: 0;
   right: 0;
-}
+} */
 
 .autocomplete-items div {
   padding: 10px;
