@@ -68,7 +68,7 @@ cityBtn.addEventListener("click", () => {
 })
 
 signup.addEventListener('click', () => {
-    loginForm['submit-btn'].value = "Sign Up"
+    loginForm['submit-btn'].textContent = "Sign Up"
     loginForm.addEventListener('submit', event => {
         const newUserObj = {
             username: event.target.username.value,
