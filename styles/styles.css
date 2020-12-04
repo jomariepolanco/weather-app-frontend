@@ -58,6 +58,7 @@ header a {
 
 nav {
   grid-area: sidebar;
+  /* border: 2px solid green; */
   /* box-shadow: 5px 10px dodgerblue;
   border-top: 5px solid dodgerblue;
   border-right: 5px solid dodgerblue; */
@@ -67,22 +68,22 @@ aside {
   position: fixed;
   width: 25%;
   height: 100vh;
+  /* border: 2px solid blue; */
 }
 
 #sidebar {
-  position: relative;
-  margin: 0 15%;
+  /* border: 2px solid red; */
+  position: fixed;
+  left: 50;
+  padding-left: 20px;
+  /* margin: 0 15%; */
   text-align: right;
-  top: 30%;
-  transform: translateY(-50%);
   font-weight: bold;
-  display: block;
-  transition: all ease-out 300ms;
+  /* display: block; */
 }
 
 #sidebar div {
-  position: relative;
-  margin: 3.2em 0;
+  position
 }
 
 #sidebar h3 {
