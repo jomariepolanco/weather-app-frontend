@@ -38,6 +38,7 @@ const cloudsDiv = document.querySelector('#clouds')
 const windDiv = document.querySelector('#wind')
 const tempDiv = document.querySelector('#temperature')
 const miscDiv = document.querySelector('#miscellaneous')
+const hourlyDiv = document.querySelector('#hourly-weather')
 const logBtn = document.querySelector('#log-btn')
 const contentDiv = document.querySelector('#content')
 const loginForm = document.querySelector('#login-form')
@@ -176,6 +177,12 @@ const fetchCityWeather = (cityId, apiKey) => {
         .then(cityWeather => renderWeather(cityWeather))
 }
 
+const fetchCityHourlyWeather = (lat, lon, apiKey) => {
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,alerts&appid=${apiKey}`)
+    .then(r => r.json())
+    .then(hourlyWeather => renderHourlyWeather(hourlyWeather))
+}
+
 
 //RENDER FUNCTIONS
 
@@ -207,7 +214,7 @@ const removeSidebarObj = (cityObj) => {
 
 const renderWeather = (weather) => {
     // console.log(holdACity)
-
+    // console.log(weather)
     contentDiv.style.display = ""
     currentCity.innerHTML = `
     <table class="city-name">
@@ -223,8 +230,8 @@ const renderWeather = (weather) => {
     <table class="sunrise">
         <tr>
             <td><h1>${weather.main.temp}F</h1></td>
-            <td>🌞${weather.sys.sunrise}</td>
-            <td>🌚${weather.sys.sunset}</td>
+            <td>🌞 ${convertTime(weather.sys.sunrise)}</td>
+            <td>🌚 ${convertTime(weather.sys.sunset)}</td>
         </tr>
     </table>
     <table class="feels-like">
@@ -255,8 +262,31 @@ const renderWeather = (weather) => {
     } else {
         cityBtn.textContent = "Add City"
     }
+    fetchCityHourlyWeather(weather.coord.lat, weather.coord.lon, key)
 }
 
+const renderHourlyWeather = (hourlyData) => {
+    console.log(hourlyData)
+    const tableHeader = hourlyDiv.querySelector(".time")
+    tableHeader.innerHTML = ""
+    const tableData = hourlyDiv.querySelector(".weather-data")
+    tableData.innerHTML= ""
+    const weatherIcon = hourlyDiv.querySelector(".weather-icon")
+    // debugger
+    hourlyData.hourly.splice(0, 9).forEach(hour => {
+        const newHeader = document.createElement("th")
+        newHeader.textContent = convertTime(hour.dt)
+        const temperature = document.createElement("td")
+        temperature.textContent = `${hour.temp}F` 
+        const iconTableD = document.createElement("td")
+        const icon = document.createElement("img")
+        icon.src = `http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`
+        iconTableD.append(icon)
+        weatherIcon.append(iconTableD)
+        tableHeader.append(newHeader)
+        tableData.append(temperature)
+    })
+}
 
 const renderChooseCorrectCity = (cities) => {
     const modal = document.querySelector('#modal')
@@ -285,3 +315,18 @@ const renderChooseCorrectCity = (cities) => {
     })
 }
 
+//HELPER FUNCTIONS
+
+const convertTime = unixTime => {
+    const newTime = new Date(unixTime * 1000)
+    const hours = newTime.getHours()
+    let minutes = newTime.getMinutes()
+    if (minutes == 0) {
+        minutes = "00"
+    }
+    if (hours >= 12) {
+        return `${hours}:${minutes} PM`
+    } else {
+        return `${hours}:${minutes} AM`
+    }
+}
