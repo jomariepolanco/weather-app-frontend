@@ -235,6 +235,17 @@ th, td {
   letter-spacing: 2px;
 }
 
+#make-home-btn {
+  position: relative;
+  margin-left: 20%;
+  padding: 10px 110px;
+  border: 2px solid dodgerblue;
+  background-color: dodgerblue;
+  color: #fafafa;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
 /**** MODAL ****/
 #modal {
   position: fixed;
