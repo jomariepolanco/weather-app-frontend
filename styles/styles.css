@@ -134,9 +134,10 @@ aside {
 }
 
 #login-form input {
-  padding: 15px 80px;
+  padding: 15px 80px 5px 5px;
   background: rgba(174, 213, 252, 0.488);
   border: 0px solid #dbdbdb;
+  font: 18px Arial;
 }
 
 #login-form label {
@@ -147,7 +148,7 @@ aside {
 
 #login-form button {
   position: relative;
-  padding: 10px 125px;
+  padding: 10px 110px;
   border: 2px solid dodgerblue;
   background-color: dodgerblue;
   color: #fafafa;
@@ -220,6 +221,17 @@ th, td {
 
 #clouds h3 {
   padding-left: 15px;
+}
+
+.add-city {
+  position: relative;
+  margin-left: 20%;
+  padding: 10px 110px;
+  border: 2px solid dodgerblue;
+  background-color: dodgerblue;
+  color: #fafafa;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 /* GRID SETUP */
 /* .parent {
@@ -302,10 +314,10 @@ input[type=submit] {
   border-top: none;
   z-index: 99;
   /*position the autocomplete items to be the same width as the container:*/
-  top: 100%;
+  /* top: 100%;
   left: 0;
   right: 0;
-} */
+} */ */
 
 .autocomplete-items div {
   padding: 10px;

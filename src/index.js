@@ -19,6 +19,7 @@ const setCurrentUser = (users, setUser) => {
     fetchCityWeather(setUserObj.cities[0].search_id, key)
 
     loginForm.style.display = "none"
+    loginCont.style.display = "none"
     contentDiv.style.display = ""
     sidebar.style.display = ""
     logBtn.textContent = "Log Out"
@@ -40,6 +41,7 @@ const miscDiv = document.querySelector('#miscellaneous')
 const logBtn = document.querySelector('#log-btn')
 const contentDiv = document.querySelector('#content')
 const loginForm = document.querySelector('#login-form')
+const loginCont = document.querySelector('.login-form-container')
 const sandbox = document.querySelector('main')
 const searchForm = document.querySelector('#search-cities')
 const signup = document.querySelector('#signup')
@@ -68,7 +70,7 @@ cityBtn.addEventListener("click", () => {
 })
 
 signup.addEventListener('click', () => {
-    loginForm['submit-btn'].textContent = "Sign Up"
+    loginForm['submit-btn'].textContents = "Sign Up"
     loginForm.addEventListener('submit', event => {
         const newUserObj = {
             username: event.target.username.value,
@@ -108,7 +110,7 @@ logBtn.addEventListener("click", () => {
     loginForm.reset()
 })
 
-//FETCH REQUESTS TO RAILS API
+//FETCH REQUESTS TO RAILS APß
 const createNewUserCity = userCityObj => {
     fetch('http://localhost:3000/user_cities', {
         method: "POST",
