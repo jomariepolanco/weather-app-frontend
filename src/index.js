@@ -9,13 +9,23 @@ const setCurrentUser = (users, setUser) => {
     /* should be refactored as a login method that calls setCurrentUser the way that
     setHoldACity works since half of this function has nothing to do with setting
     the currentUser global variable */
-
+    signUpCont.style.display = "none"
+    signUpForm.style.display = "none"
     const setUserObj = users.find(user => user.username === setUser)
     currentUser = setUserObj
-    
+
+    // if (setUserObj.cites.length = 0) {
+    //     const newUserCityObj = {
+    //         user_id: currentUser.id,
+    //         city_id: 155104,
+    //         want_texts: false,
+    //     }
+    //     createNewUserCity(newUserCityObj)
+    // }
+
     renderSideBar(setUserObj)
     fetchCityWeather(setUserObj.home_city, key)
-    
+
     loginForm.style.display = "none"
     loginCont.style.display = "none"
     contentDiv.style.display = ""
@@ -41,6 +51,7 @@ const logBtn = document.querySelector('#log-btn')
 const contentDiv = document.querySelector('#content')
 const loginForm = document.querySelector('#login-form')
 const loginCont = document.querySelector('.login-form-container')
+const signUpForm = document.querySelector('#signup-form')
 const signUpCont = document.querySelector('.signup-form-container')
 const sandbox = document.querySelector('main')
 const searchForm = document.querySelector('#search-cities')
@@ -79,13 +90,16 @@ cityBtn.addEventListener("click", () => {
 signUp.addEventListener('click', () => {
     loginCont.style.display = "none"
     signUpCont.style.display = ""
-    loginForm.addEventListener('submit', event => {
-        const newUserObj = {
-            username: event.target.username.value,
-            name: event.target.name.value,
-            phone_number: event.target['phone-number'].value
-        }
-        createNewUserPost(newUserObj)
+    signUpForm.style.display = ""
+    signUpForm.addEventListener('submit', event => {
+        console.log('clicked')
+        // const newUserObj = {
+        //     username: event.target.username.value,
+        //     name: event.target.name.value,
+        //     phone_number: event.target['phone-number'].value,
+        //     home_city: 5128638
+        // }
+        // createNewUserPost(newUserObj)
     })
 })
 
@@ -97,7 +111,9 @@ logIn.addEventListener('click', () => {
 loginForm.addEventListener('submit', event => {
     event.preventDefault()
     const setUser = event.target.username.value
-    fetchAllUsers(setUser)
+    if (setUser) {
+        fetchAllUsers(setUser)
+    }
     //not a great idea but should work
 })
 
@@ -121,7 +137,7 @@ logBtn.addEventListener("click", () => {
     loginForm.style.display = ""
     loginCont.style.display = ""
 
-    alert("You have successfully logged out.")
+    // alert("You have successfully logged out.")
     loginForm.reset()
 })
 
@@ -236,7 +252,7 @@ const removeSidebarObj = (cityObj) => {
 
 const renderWeather = (weather) => {
     // console.log(holdACity)
-    
+
     contentDiv.style.display = ""
     currentCity.innerHTML = `
     <table class="city-name">
@@ -279,7 +295,7 @@ const renderWeather = (weather) => {
     `
     cityBtn.dataset.search = weather.id
     const sideBarContent = Array.from(sidebar.querySelectorAll("div")).map(div => div.textContent)
-    
+
     if (sideBarContent.includes(weather.name)) {
         cityBtn.textContent = "Delete City"
         if (holdACity && currentUser.home_city != holdACity.search_id) {
