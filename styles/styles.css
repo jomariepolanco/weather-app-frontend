@@ -157,6 +157,62 @@ aside {
   letter-spacing: 2px;
 }
 
+.log-in {
+  padding-top: 30px;
+  background-color: white;
+  border-radius: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  color: dodgerblue;
+  letter-spacing: 2px;
+}
+.sign-up {
+  padding-top: 30px;
+  background-color: white;
+  border-radius: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  color: dodgerblue;
+  letter-spacing: 2px;
+}
+
+.signup-form-container {
+  margin: 30% 30% 0% 0%;
+  padding-bottom: 8%;
+  border: 5px solid dodgerblue;
+  border-radius: 15px;
+  box-shadow: 5px 10px dodgerblue;
+}
+
+#signup-form {
+  padding-top: 30px;
+  background-color: white;
+  border-radius: 15px;
+  text-align: center;
+}
+
+#signup-form input {
+  padding: 15px 80px 5px 5px;
+  background: rgba(174, 213, 252, 0.488);
+  border: 0px solid #dbdbdb;
+  font: 18px Arial;
+}
+
+#signup-form label {
+  text-transform: uppercase;
+  color: dodgerblue;
+  letter-spacing: 2px;
+}
+
+#signup-form button {
+  position: relative;
+  padding: 10px 110px;
+  border: 2px solid dodgerblue;
+  background-color: dodgerblue;
+  color: #fafafa;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
 
 /**** WEATHER INFO ****/
 

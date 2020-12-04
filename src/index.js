@@ -41,9 +41,11 @@ const logBtn = document.querySelector('#log-btn')
 const contentDiv = document.querySelector('#content')
 const loginForm = document.querySelector('#login-form')
 const loginCont = document.querySelector('.login-form-container')
+const signUpCont = document.querySelector('.signup-form-container')
 const sandbox = document.querySelector('main')
 const searchForm = document.querySelector('#search-cities')
-const signup = document.querySelector('#signup')
+const signUp = document.querySelector('.sign-up')
+const logIn = document.querySelector('.log-in')
 const cityBtn = document.querySelector(".add-city")
 const homeBtn = document.querySelector("#make-home-btn")
 
@@ -74,8 +76,9 @@ cityBtn.addEventListener("click", () => {
     }
 })
 
-signup.addEventListener('click', () => {
-    loginForm['submit-btn'].textContents = "Sign Up"
+signUp.addEventListener('click', () => {
+    loginCont.style.display = "none"
+    signUpCont.style.display = ""
     loginForm.addEventListener('submit', event => {
         const newUserObj = {
             username: event.target.username.value,
@@ -84,6 +87,11 @@ signup.addEventListener('click', () => {
         }
         createNewUserPost(newUserObj)
     })
+})
+
+logIn.addEventListener('click', () => {
+    loginCont.style.display = ""
+    signUpCont.style.display = "none"
 })
 
 loginForm.addEventListener('submit', event => {
@@ -111,6 +119,8 @@ logBtn.addEventListener("click", () => {
     sidebar.style.display = "none"
     contentDiv.style.display = "none"
     loginForm.style.display = ""
+    loginCont.style.display = ""
+
     alert("You have successfully logged out.")
     loginForm.reset()
 })

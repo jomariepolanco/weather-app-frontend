@@ -22,9 +22,6 @@
             <li>
                 <a href="#" id="log-btn" class="navbar-item align-right">Log In</a>
             </li>
-            <li>
-                <a href="#" id="signup">Sign Up</a>
-            </li>
         </ul>
     </header>
 
@@ -44,11 +41,25 @@
             <form id="login-form">
                 <label>Username</label><br><br>
                 <input type="text" name="username"><br><br>
+                <!-- <label>Name</label><br><br>
+                <input type="text" name="name"><br><br>
+                <label>Phone Number</label><br><br>
+                <input type="text" name="phone-number"><br><br><br> -->
+                <button id="login-btn" type="submit" name="submit-btn">Log In</button>
+                <div class="sign-up">Sign Up</div>
+                <!-- <input id="login-btn" type="submit" name="submit-btn" value="Log In"> -->
+            </form>
+        </div>
+        <div class="signup-form-container" style="display: none;">
+            <form id="signup-form">
+                <label>Username</label><br><br>
+                <input type="text" name="username"><br><br>
                 <label>Name</label><br><br>
                 <input type="text" name="name"><br><br>
                 <label>Phone Number</label><br><br>
                 <input type="text" name="phone-number"><br><br><br>
-                <button id="login-btn" type="submit" name="submit-btn">Log In</button>
+                <button id="login-btn" type="submit" name="submit-btn">Sign Up</button>
+                <div class="log-in">Log In</div>
                 <!-- <input id="login-btn" type="submit" name="submit-btn" value="Log In"> -->
             </form>
         </div>
