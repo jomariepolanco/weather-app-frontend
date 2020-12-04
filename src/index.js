@@ -271,7 +271,7 @@ const renderChooseCorrectCity = (cities) => {
         const div = document.createElement('div')
         div.dataset.search_id = city.search_id
         div.dataset.rails_id = city.id
-        div.textContent = `City: ${city.name}, State: ${city.state}, Country: ${city.country}`
+        div.textContent = `${city.name}, ${city.state}, ${city.country}`
         chooseCityForm.append(div)
     })
 
