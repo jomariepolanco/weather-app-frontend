@@ -208,31 +208,43 @@ const renderWeather = (weather) => {
 
     contentDiv.style.display = ""
     currentCity.innerHTML = `
-        <h3>${weather.name}</h3>
-        <p>${weather.sys.country}</p>
-    `
-    cloudsDiv.innerHTML = `
-    <h3>${weather.weather[0].description}</h3>
-    <img src='http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png'>
-    `
-    windDiv.innerHTML = `
-    <h3>Wind</h3>
-    <p>${weather.wind.deg} Degrees</p>
-    <p>${weather.wind.speed} MPH</p>
+    <table class="city-name">
+        <tr>
+        <td><h1>${weather.name} ${weather.sys.country}</h1><td>
+        <td><img src='http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png'>
+            <h4>${weather.weather[0].description}</h4>
+        </td>
+        </tr>
+    </table>
     `
     tempDiv.innerHTML = `
-    <h3>Temperature</h3>
-    <p>Feels Like: ${weather.main.feels_like}F</p>
-    <p>Humidity: ${weather.main.humidity}%</p>
-    <p>Temperature: ${weather.main.temp}F</p>
-    <p>Max Temp: ${weather.main.temp_max}F</p>
-    <p>Min Temp: ${weather.main.temp_min}F</p>
-    `
-    miscDiv.innerHTML = `
-    <h3>Misc</h3>
-    <p>Sunrise: ${weather.sys.sunrise} UTC</p>
-    <p>Sunset: ${weather.sys.sunset} UTC</p>
-    <p>Visibility: ${weather.visibility} meters</p>
+    <table class="sunrise">
+        <tr>
+            <td><h1>${weather.main.temp}F</h1></td>
+            <td>🌞${weather.sys.sunrise}</td>
+            <td>🌚${weather.sys.sunset}</td>
+        </tr>
+    </table>
+    <table class="feels-like">
+        <tr>
+            <td>🌡 Feels Like</td>
+            <td>${weather.main.feels_like}F</td>
+            <td>💨 Wind</td>
+            <td>${weather.wind.speed} MPH </td>
+        </tr>
+        <tr>
+            <td>🔆 High</td>
+            <td>${weather.main.temp_max}F</td>
+            <td>❄️ Low</td> 
+            <td>${weather.main.temp_min}F</td>
+        </tr>
+        <tr>
+            <td>💧 Humidity</td>
+            <td>${weather.main.humidity}%</td>
+            <td>👁‍🗨 Visibility</td>
+            <td>${weather.visibility} meters</td>
+        </tr>
+    </table>
     `
     cityBtn.dataset.search = weather.id
     const sideBarContent = Array.from(sidebar.querySelectorAll("div")).map(div => div.textContent)

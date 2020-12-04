@@ -21,6 +21,9 @@ body {
 header {
   padding-top: 5px;
   grid-area: nav;
+  /* box-shadow: 5px 10px dodgerblue;
+  border-top: 5px solid dodgerblue;
+  border-right: 5px solid dodgerblue */
   /* border: 2px solid red; */
 }
 
@@ -28,6 +31,7 @@ header h3 {
   float: left;
   letter-spacing: 2px;
   color: dodgerblue;
+  padding-left: 20px;
 }
 
 header ul {
@@ -54,9 +58,9 @@ header a {
 
 nav {
   grid-area: sidebar;
-  box-shadow: 5px 10px dodgerblue;
+  /* box-shadow: 5px 10px dodgerblue;
   border-top: 5px solid dodgerblue;
-  border-right: 5px solid dodgerblue;
+  border-right: 5px solid dodgerblue; */
 }
 
 aside {
@@ -117,27 +121,67 @@ aside {
 
 main {
   grid-area: main;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
   /* border: 2px solid blue; */
+  border: 1px solid green;
+  background-color: dodgerblue;
 }
 
 .flex-container {
-  display: flex;
-  flex-direction: row;
+  /* display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-around;
+  border: 1px solid black; */
 }
 
 .box {
-  width: 300px;
-  height: 180px;
-  background-color: dodgerblue;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
   border: 1px white;
+  border-radius: 15px;
   /* box-shadow: 5px 10px dodgerblue; */
 }
 
 #weather-container {
+  padding-top: 50px;
+  font-size: 18px;
 }
 
+#current-city {
+  padding: 20px;
+  text-align: center;
+}
+
+#temperature h1 {
+  padding-left: 15px;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  padding: 15px;
+  vertical-align: bottom;
+  /* border-bottom: 1px solid black; */
+}
+
+th, td {
+  border-bottom: 1px solid rgb(172, 172, 172);
+}
+
+#city-name td {
+  border-bottom: 1px solid white;
+}
+
+#clouds h3 {
+  padding-left: 15px;
+}
 /* GRID SETUP */
 /* .parent {
 
