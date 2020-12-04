@@ -126,8 +126,8 @@ main {
   flex-wrap: wrap;
   justify-content: space-around;
   /* border: 2px solid blue; */
-  border: 1px solid green;
-  background-color: dodgerblue;
+  /* border: 1px solid green; */
+  /* background-color: dodgerblue; */
 }
 
 .flex-container {
