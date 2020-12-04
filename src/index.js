@@ -11,18 +11,17 @@ const setCurrentUser = (users, setUser) => {
     the currentUser global variable */
 
     const setUserObj = users.find(user => user.username === setUser)
-    
     currentUser = setUserObj
-    setHoldACity(setUserObj.cities[0].id)
-
+    
     renderSideBar(setUserObj)
-    fetchCityWeather(setUserObj.cities[0].search_id, key)
-
+    fetchCityWeather(setUserObj.home_city, key)
+    
     loginForm.style.display = "none"
     loginCont.style.display = "none"
     contentDiv.style.display = ""
     sidebar.style.display = ""
     logBtn.textContent = "Log Out"
+    homeBtn.style.display = "none"
 }
 
 const setHoldACity = (cityId) => {
@@ -46,9 +45,15 @@ const sandbox = document.querySelector('main')
 const searchForm = document.querySelector('#search-cities')
 const signup = document.querySelector('#signup')
 const cityBtn = document.querySelector(".add-city")
+const homeBtn = document.querySelector("#make-home-btn")
 
 
 //EVENT LISTENERS
+
+homeBtn.addEventListener('click', ({ target }) => {
+
+    setHomeCityFetch()
+})
 
 cityBtn.addEventListener("click", () => {
     if (cityBtn.textContent == "Delete City") {
@@ -110,7 +115,21 @@ logBtn.addEventListener("click", () => {
     loginForm.reset()
 })
 
-//FETCH REQUESTS TO RAILS APß
+//FETCH REQUESTS TO RAILS API
+const setHomeCityFetch = () => {
+    const homeObj = { home_city: holdACity.search_id }
+    fetch(`http://localhost:3000/users/${currentUser.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(homeObj)
+    })
+        .then(r => r.json())
+        .then(updatedUser => {
+            currentUser = updatedUser
+            homeBtn.style.display = "none"
+        })
+}
+
 const createNewUserCity = userCityObj => {
     fetch('http://localhost:3000/user_cities', {
         method: "POST",
@@ -207,7 +226,7 @@ const removeSidebarObj = (cityObj) => {
 
 const renderWeather = (weather) => {
     // console.log(holdACity)
-
+    
     contentDiv.style.display = ""
     currentCity.innerHTML = `
     <table class="city-name">
@@ -250,13 +269,20 @@ const renderWeather = (weather) => {
     `
     cityBtn.dataset.search = weather.id
     const sideBarContent = Array.from(sidebar.querySelectorAll("div")).map(div => div.textContent)
+    
     if (sideBarContent.includes(weather.name)) {
         cityBtn.textContent = "Delete City"
+        if (holdACity && currentUser.home_city != holdACity.search_id) {
+            homeBtn.style.display = ""
+        } else {
+            homeBtn.style.display = "none"
+        }
     } else {
         cityBtn.textContent = "Add City"
+        homeBtn.style.display = "none"
     }
-}
 
+}
 
 const renderChooseCorrectCity = (cities) => {
     const modal = document.querySelector('#modal')
