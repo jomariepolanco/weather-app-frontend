@@ -12,7 +12,7 @@ const setCurrentUser = (users, setUser) => {
 
     const setUserObj = users.find(user => user.username === setUser)
     currentUser = setUserObj
-    
+    // debugger
     renderSideBar(setUserObj)
     fetchCityWeather(setUserObj.home_city, key)
     
