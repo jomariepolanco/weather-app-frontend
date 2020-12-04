@@ -282,7 +282,9 @@ const renderHourlyWeather = (hourlyData) => {
     const tableData = hourlyDiv.querySelector(".weather-data")
     tableData.innerHTML= ""
     const weatherIcon = hourlyDiv.querySelector(".weather-icon")
+    weatherIcon.innerHTML= ""
     const humidity = hourlyDiv.querySelector(".humidity")
+    humidity.innerHTML = ""
     // debugger
     hourlyData.hourly.splice(0, 6).forEach(hour => {
         const newHeader = document.createElement("th")
