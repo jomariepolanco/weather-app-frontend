@@ -9,11 +9,10 @@ const setCurrentUser = (users, setUser) => {
     /* should be refactored as a login method that calls setCurrentUser the way that
     setHoldACity works since half of this function has nothing to do with setting
     the currentUser global variable */
-    signUpCont.style.display = "none"
-    signUpForm.style.display = "none"
+
     const setUserObj = users.find(user => user.username === setUser)
     currentUser = setUserObj
-    // debugger
+
     renderSideBar(setUserObj)
     fetchCityWeather(setUserObj.home_city, key)
 
@@ -57,7 +56,6 @@ const homeBtn = document.querySelector("#make-home-btn")
 //EVENT LISTENERS
 
 homeBtn.addEventListener('click', ({ target }) => {
-
     setHomeCityFetch()
 })
 
@@ -69,31 +67,43 @@ cityBtn.addEventListener("click", () => {
         alert("City successfully removed.")
         cityBtn.textContent = "Add City"
     } else if (cityBtn.textContent == "Add City") {
-        renderSidebarObj(holdACity)
-        const newUserCityObj = {
-            user_id: currentUser.id,
-            city_id: holdACity.id,
-            want_texts: false,
+        if (!holdACity) {
+            debugger
+            const mustBeNyc = {
+                name: "New York"
+            }
+        } else {
+            renderSidebarObj(holdACity)
+            const newUserCityObj = {
+                user_id: currentUser.id,
+                city_id: holdACity.id,
+                want_texts: false,
+            }
+            createNewUserCity(newUserCityObj)
+            cityBtn.textContent = "Delete City"
         }
-        createNewUserCity(newUserCityObj)
-        cityBtn.textContent = "Delete City"
     }
+    //i broke this last night. won't be tough to solve in the AM
 })
 
 signUp.addEventListener('click', () => {
     loginCont.style.display = "none"
     signUpCont.style.display = ""
     signUpForm.style.display = ""
-    signUpForm.addEventListener('submit', event => {
-        console.log('clicked')
-        // const newUserObj = {
-        //     username: event.target.username.value,
-        //     name: event.target.name.value,
-        //     phone_number: event.target['phone-number'].value,
-        //     home_city: 5128638
-        // }
-        // createNewUserPost(newUserObj)
-    })
+})
+
+signUpForm.addEventListener('submit', event => {
+    const newUserObj = {
+        username: event.target.username.value,
+        name: event.target.name.value,
+        phone_number: event.target['phone-number'].value,
+        home_city: 5128638
+    }
+    signUpCont.style.display = "none"
+    signUpForm.style.display = "none"
+    createNewUserPost(newUserObj)
+    setHoldACity(155104)
+    signUpForm.reset()
 })
 
 logIn.addEventListener('click', () => {
