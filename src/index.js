@@ -13,7 +13,7 @@ const setCurrentUser = (users, setUser) => {
     signUpForm.style.display = "none"
     const setUserObj = users.find(user => user.username === setUser)
     currentUser = setUserObj
-    // debugger
+    
     renderSideBar(setUserObj)
     fetchCityWeather(setUserObj.home_city, key)
 
@@ -55,7 +55,6 @@ const homeBtn = document.querySelector("#make-home-btn")
 //EVENT LISTENERS
 
 homeBtn.addEventListener('click', ({ target }) => {
-
     setHomeCityFetch()
 })
 
@@ -82,16 +81,19 @@ signUp.addEventListener('click', () => {
     loginCont.style.display = "none"
     signUpCont.style.display = ""
     signUpForm.style.display = ""
-    signUpForm.addEventListener('submit', event => {
-        console.log('clicked')
-        // const newUserObj = {
-        //     username: event.target.username.value,
-        //     name: event.target.name.value,
-        //     phone_number: event.target['phone-number'].value,
-        //     home_city: 5128638
-        // }
-        // createNewUserPost(newUserObj)
-    })
+})
+
+signUpForm.addEventListener('submit', event => {
+    console.log('clicked')
+    const newUserObj = {
+        username: event.target.username.value,
+        name: event.target.name.value,
+        phone_number: event.target['phone-number'].value,
+        home_city: 5128638
+    }
+    createNewUserPost(newUserObj)
+    setHoldACity(155104)
+    signUpForm.reset()
 })
 
 logIn.addEventListener('click', () => {
