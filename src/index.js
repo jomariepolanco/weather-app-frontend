@@ -227,7 +227,9 @@ const fetchCityWeather = (cityId, apiKey) => {
 const fetchCityHourlyWeather = (lat, lon, apiKey) => {
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,alerts&appid=${apiKey}`)
     .then(r => r.json())
-    .then(hourlyWeather => renderHourlyWeather(hourlyWeather))
+    .then(hourlyWeather => {
+        console.log(hourlyWeather)
+        renderHourlyWeather(hourlyWeather)})
 }
 
 // const fetchCityDailyWeather = (cityName, apiKey) => {
@@ -363,6 +365,8 @@ const renderHourlyWeather = (hourlyData) => {
     const weatherIcon = hourlyDiv.querySelector(".weather-icon")
     const humidity = hourlyDiv.querySelector(".humidity")
     // debugger
+    humidity.innerHTML = ""
+    weatherIcon.innerHTML = ""
     hourlyData.hourly.splice(0, 6).forEach(hour => {
         const newHeader = document.createElement("th")
         newHeader.textContent = convertTime(hour.dt)
