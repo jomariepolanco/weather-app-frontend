@@ -9,8 +9,7 @@ const setCurrentUser = (users, setUser) => {
     /* should be refactored as a login method that calls setCurrentUser the way that
     setHoldACity works since half of this function has nothing to do with setting
     the currentUser global variable */
-    signUpCont.style.display = "none"
-    signUpForm.style.display = "none"
+   
     const setUserObj = users.find(user => user.username === setUser)
     currentUser = setUserObj
     
@@ -84,13 +83,14 @@ signUp.addEventListener('click', () => {
 })
 
 signUpForm.addEventListener('submit', event => {
-    console.log('clicked')
     const newUserObj = {
         username: event.target.username.value,
         name: event.target.name.value,
         phone_number: event.target['phone-number'].value,
         home_city: 5128638
     }
+    signUpCont.style.display = "none"
+    signUpForm.style.display = "none"
     createNewUserPost(newUserObj)
     setHoldACity(155104)
     signUpForm.reset()
