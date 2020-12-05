@@ -37,8 +37,6 @@ const cloudsDiv = document.querySelector('#clouds')
 const windDiv = document.querySelector('#wind')
 const tempDiv = document.querySelector('#temperature')
 const miscDiv = document.querySelector('#miscellaneous')
-const hourlyDiv = document.querySelector('#hourly-weather')
-const dailyDiv = document.querySelector('#daily-weather')
 const logBtn = document.querySelector('#log-btn')
 const contentDiv = document.querySelector('#content')
 const loginForm = document.querySelector('#login-form')
@@ -197,18 +195,6 @@ const fetchCityWeather = (cityId, apiKey) => {
         .then(cityWeather => renderWeather(cityWeather))
 }
 
-const fetchCityHourlyWeather = (lat, lon, apiKey) => {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,alerts&appid=${apiKey}`)
-    .then(r => r.json())
-    .then(hourlyWeather => renderHourlyWeather(hourlyWeather))
-}
-
-// const fetchCityDailyWeather = (cityName, apiKey) => {
-//     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}`)
-//     .then(r => r.json())
-//     .then(dailyWeather => renderDailyWeather(dailyWeather))
-// }
-
 
 //RENDER FUNCTIONS
 
@@ -241,7 +227,6 @@ const removeSidebarObj = (cityObj) => {
 const renderWeather = (weather) => {
     // console.log(holdACity)
     
-    // console.log(weather)
     contentDiv.style.display = ""
     currentCity.innerHTML = `
     <table class="city-name">
@@ -257,8 +242,8 @@ const renderWeather = (weather) => {
     <table class="sunrise">
         <tr>
             <td><h1>${weather.main.temp}F</h1></td>
-            <td>🌞 ${convertTime(weather.sys.sunrise)}</td>
-            <td>🌚 ${convertTime(weather.sys.sunset)}</td>
+            <td>🌞${weather.sys.sunrise}</td>
+            <td>🌚${weather.sys.sunset}</td>
         </tr>
     </table>
     <table class="feels-like">
@@ -297,52 +282,7 @@ const renderWeather = (weather) => {
         homeBtn.style.display = "none"
     }
 
-    fetchCityHourlyWeather(weather.coord.lat, weather.coord.lon, key)
-    // fetchCityDailyWeather(weather.name, key)
 }
-
-const renderHourlyWeather = (hourlyData) => {
-    // console.log(hourlyData)
-    const tableHeader = hourlyDiv.querySelector(".time")
-    tableHeader.innerHTML = ""
-    const tableData = hourlyDiv.querySelector(".weather-data")
-    tableData.innerHTML= ""
-    const weatherIcon = hourlyDiv.querySelector(".weather-icon")
-    weatherIcon.innerHTML= ""
-    const humidity = hourlyDiv.querySelector(".humidity")
-    humidity.innerHTML = ""
-    // debugger
-    hourlyData.hourly.splice(0, 6).forEach(hour => {
-        const newHeader = document.createElement("th")
-        newHeader.textContent = convertTime(hour.dt)
-        const temperature = document.createElement("td")
-        temperature.textContent = `${hour.temp}F` 
-        const iconTableD = document.createElement("td")
-        const icon = document.createElement("img")
-        icon.src = `http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`
-        const humidD = document.createElement("td")
-        humidD.textContent = `💦 ${hour.humidity}%`
-        humidity.append(humidD)
-        iconTableD.append(icon)
-        weatherIcon.append(iconTableD)
-        tableHeader.append(newHeader)
-        tableData.append(temperature)
-    })
-}
-
-// const renderDailyWeather = dailyWeatherData => {
-//     const tableHeader = dailyDiv.querySelector('.day')
-//     const tableHighW = dailyDiv.querySelector('.high')
-//     const tableLowW = dailyDiv.querySelector('.low')
-//     const tableIcon = dailyDiv.querySelector('.weather-icon')
-//     const tableHumidity = dailyDiv.querySelector('.humidity')
-//     dailyWeatherData.list.forEach(day => {
-//         const newHeader = document.createElement("th")
-//         newHeader.textContent = day.dt_txt
-
-//         tableHeader.append(newHeader)
-//     })
-// }
 
 const renderChooseCorrectCity = (cities) => {
     const modal = document.querySelector('#modal')
@@ -371,18 +311,3 @@ const renderChooseCorrectCity = (cities) => {
     })
 }
 
-//HELPER FUNCTIONS
-
-const convertTime = unixTime => {
-    const newTime = new Date(unixTime * 1000)
-    const hours = newTime.getHours()
-    let minutes = newTime.getMinutes()
-    if (minutes == 0) {
-        minutes = "00"
-    }
-    if (hours >= 12) {
-        return `${hours}:${minutes} PM`
-    } else {
-        return `${hours}:${minutes} AM`
-    }
-}
