@@ -9,10 +9,10 @@ const setCurrentUser = (users, setUser) => {
     /* should be refactored as a login method that calls setCurrentUser the way that
     setHoldACity works since half of this function has nothing to do with setting
     the currentUser global variable */
-   
+
     const setUserObj = users.find(user => user.username === setUser)
     currentUser = setUserObj
-    
+
     renderSideBar(setUserObj)
     fetchCityWeather(setUserObj.home_city, key)
 
@@ -65,15 +65,23 @@ cityBtn.addEventListener("click", () => {
         alert("City successfully removed.")
         cityBtn.textContent = "Add City"
     } else if (cityBtn.textContent == "Add City") {
-        renderSidebarObj(holdACity)
-        const newUserCityObj = {
-            user_id: currentUser.id,
-            city_id: holdACity.id,
-            want_texts: false,
+        if (!holdACity) {
+            debugger
+            const mustBeNyc = {
+                name: "New York"
+            }
+        } else {
+            renderSidebarObj(holdACity)
+            const newUserCityObj = {
+                user_id: currentUser.id,
+                city_id: holdACity.id,
+                want_texts: false,
+            }
+            createNewUserCity(newUserCityObj)
+            cityBtn.textContent = "Delete City"
         }
-        createNewUserCity(newUserCityObj)
-        cityBtn.textContent = "Delete City"
     }
+    //i broke this last night. won't be tough to solve in the AM
 })
 
 signUp.addEventListener('click', () => {
