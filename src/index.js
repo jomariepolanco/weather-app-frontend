@@ -13,16 +13,7 @@ const setCurrentUser = (users, setUser) => {
     signUpForm.style.display = "none"
     const setUserObj = users.find(user => user.username === setUser)
     currentUser = setUserObj
-
-    // if (setUserObj.cites.length = 0) {
-    //     const newUserCityObj = {
-    //         user_id: currentUser.id,
-    //         city_id: 155104,
-    //         want_texts: false,
-    //     }
-    //     createNewUserCity(newUserCityObj)
-    // }
-
+    // debugger
     renderSideBar(setUserObj)
     fetchCityWeather(setUserObj.home_city, key)
 
@@ -336,4 +327,5 @@ const renderChooseCorrectCity = (cities) => {
         }
     })
 }
+
 
