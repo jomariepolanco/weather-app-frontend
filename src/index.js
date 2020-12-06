@@ -340,6 +340,7 @@ const renderChooseCorrectCity = (cities) => {
 
     cities.forEach(city => {
         const div = document.createElement('div')
+        div.className = "city-card"
         div.dataset.search_id = city.search_id
         div.dataset.rails_id = city.id
         div.textContent = `${city.name}, ${city.state}, ${city.country}`

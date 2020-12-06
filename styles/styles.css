@@ -21,6 +21,8 @@ body {
 header {
   padding-top: 5px;
   grid-area: nav;
+  /* position: fixed;
+  margin: 0% 0% 0% 0%; */
   /* box-shadow: 5px 10px dodgerblue;
   border-top: 5px solid dodgerblue;
   border-right: 5px solid dodgerblue */
@@ -120,7 +122,7 @@ aside {
 
 /**** LOGIN/SIGNUP FORM ****/
 .login-form-container {
-  margin: 30% 30% 0% 0%;
+  margin: 10% 40% 20% 20%;
   padding-bottom: 8%;
   border: 5px solid dodgerblue;
   border-radius: 15px;
@@ -128,7 +130,7 @@ aside {
 }
 
 #login-form {
-  padding-top: 30px;
+  padding-top: 10%;
   background-color: white;
   border-radius: 15px;
   text-align: center;
@@ -167,7 +169,7 @@ aside {
   letter-spacing: 2px;
 }
 .sign-up {
-  padding-top: 30px;
+  padding-top: 10%;
   background-color: white;
   border-radius: 15px;
   text-align: center;
@@ -177,8 +179,8 @@ aside {
 }
 
 .signup-form-container {
-  margin: 30% 30% 0% 0%;
-  padding-bottom: 8%;
+  margin: 10% 30% 20% 10%;
+  padding: 3% 0%;
   border: 5px solid dodgerblue;
   border-radius: 15px;
   box-shadow: 5px 10px dodgerblue;
@@ -283,7 +285,7 @@ th, td {
 .add-city {
   position: relative;
   margin-left: 20%;
-  padding: 10px 110px;
+  padding: 10px 10px;
   border: 2px solid dodgerblue;
   background-color: dodgerblue;
   color: #fafafa;
@@ -294,7 +296,7 @@ th, td {
 #make-home-btn {
   position: relative;
   margin-left: 20%;
-  padding: 10px 110px;
+  padding: 10px 10px;
   border: 2px solid dodgerblue;
   background-color: dodgerblue;
   color: #fafafa;
@@ -314,12 +316,25 @@ th, td {
 }
 
 .modal-container {
-  margin: 30% 10% 0% 30%;
+  margin: 10% 30% 0% 30%;
   padding-bottom: 8%;
   border: 5px solid dodgerblue;
   border-radius: 15px;
   box-shadow: 5px 10px dodgerblue;
   background-color: rgba(255, 255, 255, 0.94);
+}
+
+.city-card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 80%;
+  padding: 10px;
+  margin: 3% auto;
+  text-align: center;
+}
+
+.city-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 #choose-city-form {
@@ -328,6 +343,7 @@ th, td {
 
 #choose-city-form h1 {
   padding-left: 5px;
+  text-align: center;
 }
 
 #choose-city-form div {
