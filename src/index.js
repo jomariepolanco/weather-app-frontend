@@ -107,8 +107,8 @@ signUpForm.addEventListener('submit', event => {
     }
     signUpCont.style.display = "none"
     signUpForm.style.display = "none"
-    createNewUserPost(newUserObj)
     setHoldACity(155104)
+    createNewUserPost(newUserObj)
     signUpForm.reset()
 })
 
@@ -235,7 +235,7 @@ const fetchCityHourlyWeather = (lat, lon, apiKey) => {
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,alerts&appid=${apiKey}`)
         .then(r => r.json())
         .then(hourlyWeather => {
-            console.log(hourlyWeather)
+            // console.log(hourlyWeather)
             renderHourlyWeather(hourlyWeather)
         })
 }
@@ -277,6 +277,25 @@ const removeSidebarObj = (cityObj) => {
 
 const renderWeather = (weather) => {
     // console.log(holdACity)
+
+
+    //unix time conversion. not fully successful yet
+    // let sunrise = weather.sys.sunrise
+    // let sunset = weather.sys.sunset
+
+    // let sunsetDate = new Date(sunset * 1000)
+    // let hours = sunsetDate.getHours()
+    // if (hours > 12) {
+    //     hours = hours - 12
+    // }
+    // let minutes = date.getMinutes()
+    // if (minutes.length < 2) {
+    //     minutes = `0${minutes}`
+    // }
+    // let time = `${hours}:${minutes}`
+
+    // console.log(time)
+
 
     contentDiv.style.display = ""
     currentCity.innerHTML = `
