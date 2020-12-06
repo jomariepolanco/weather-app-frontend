@@ -61,11 +61,16 @@ homeBtn.addEventListener('click', ({ target }) => {
 
 cityBtn.addEventListener("click", () => {
     if (cityBtn.textContent == "Delete City") {
-        const userCityData = `${currentUser.id},${holdACity.id}`
-        deleteUserCity(userCityData)
-        removeSidebarObj(holdACity)
-        alert("City successfully removed.")
-        cityBtn.textContent = "Add City"
+        if (holdACity.search_id != currentUser.home_city) {
+            const userCityData = `${currentUser.id},${holdACity.id}`
+            deleteUserCity(userCityData)
+            removeSidebarObj(holdACity)
+            alert("City successfully removed.")
+            cityBtn.textContent = "Add City"
+            homeBtn.style.display = "none"
+        } else {
+            alert("You must set a new home city first.")
+        }
     } else if (cityBtn.textContent == "Add City") {
         if (!holdACity) {
             debugger
@@ -81,6 +86,7 @@ cityBtn.addEventListener("click", () => {
             }
             createNewUserCity(newUserCityObj)
             cityBtn.textContent = "Delete City"
+            homeBtn.style.display = ""
         }
     }
     //i broke this last night. won't be tough to solve in the AM
@@ -139,6 +145,7 @@ logBtn.addEventListener("click", () => {
     contentDiv.style.display = "none"
     loginForm.style.display = ""
     loginCont.style.display = ""
+    holdACity = ""
 
     // alert("You have successfully logged out.")
     loginForm.reset()
@@ -226,10 +233,11 @@ const fetchCityWeather = (cityId, apiKey) => {
 
 const fetchCityHourlyWeather = (lat, lon, apiKey) => {
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,alerts&appid=${apiKey}`)
-    .then(r => r.json())
-    .then(hourlyWeather => {
-        console.log(hourlyWeather)
-        renderHourlyWeather(hourlyWeather)})
+        .then(r => r.json())
+        .then(hourlyWeather => {
+            console.log(hourlyWeather)
+            renderHourlyWeather(hourlyWeather)
+        })
 }
 
 // const fetchCityDailyWeather = (cityName, apiKey) => {
@@ -362,7 +370,7 @@ const renderHourlyWeather = (hourlyData) => {
     const tableHeader = hourlyDiv.querySelector(".time")
     tableHeader.innerHTML = ""
     const tableData = hourlyDiv.querySelector(".weather-data")
-    tableData.innerHTML= ""
+    tableData.innerHTML = ""
     const weatherIcon = hourlyDiv.querySelector(".weather-icon")
     const humidity = hourlyDiv.querySelector(".humidity")
     // debugger
@@ -372,7 +380,7 @@ const renderHourlyWeather = (hourlyData) => {
         const newHeader = document.createElement("th")
         newHeader.textContent = convertTime(hour.dt)
         const temperature = document.createElement("td")
-        temperature.textContent = `${hour.temp}F` 
+        temperature.textContent = `${hour.temp}F`
         const iconTableD = document.createElement("td")
         const icon = document.createElement("img")
         icon.src = `http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`
