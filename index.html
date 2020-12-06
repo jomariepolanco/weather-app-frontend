@@ -65,15 +65,21 @@
         </div>
         
         <div id="content" class="content" style="display: none;">
-            <form id="search-cities">
-                <!-- <div class="autocomplete" style="width:300px;"> -->
-                    <input id="city-input" type="text" name="city">
-                    <button id="submit-btn" type="submit" name="submit-city">
-                        <span>Search</span>
-                    </button>
-                    <!-- <input id="submit-btn" type="submit" name="submit-city" value=""> -->
-                <!-- </div> -->
-            </form>
+            <div id="add-city-alignment" class="center">
+                <button class="add-city">Delete City</button>
+            
+                <button id="make-home-btn" style="display: none;">Make Home City</button>
+            
+                <form id="search-cities">
+                    <!-- <div class="autocomplete" style="width:300px;"> -->
+                        <input id="city-input" type="text" name="city">
+                        <button id="submit-btn" type="submit" name="submit-city">
+                            <span>Search</span>
+                        </button>
+                        <!-- <input id="submit-btn" type="submit" name="submit-city" value=""> -->
+                    <!-- </div> -->
+                </form>
+            </div>
             <div class="flex-container">
                 <div id="weather-container">
                 <div class="box">
@@ -125,13 +131,6 @@
                             </tr>
                         </table>
                     </div>
-                </div id="add-city-alignment" class="center">
-                    <br><br>
-                    <button class="add-city">Delete City</button>
-                </div>
-                </div>
-                    <br><br>
-                    <button id="make-home-btn" style="display: none;">Make Home City</button>
                 </div>
             </div>
         </div>
