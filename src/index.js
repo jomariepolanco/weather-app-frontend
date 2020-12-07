@@ -103,6 +103,7 @@ signUpForm.addEventListener('submit', event => {
         username: event.target.username.value,
         name: event.target.name.value,
         phone_number: event.target['phone-number'].value,
+        //automatically set home city to New York City
         home_city: 5128638
     }
     signUpCont.style.display = "none"
@@ -123,7 +124,6 @@ loginForm.addEventListener('submit', event => {
     if (setUser) {
         fetchAllUsers(setUser)
     }
-    //not a great idea but should work
 })
 
 searchForm.addEventListener('submit', event => {
@@ -147,7 +147,6 @@ logBtn.addEventListener("click", () => {
     loginCont.style.display = ""
     holdACity = ""
 
-    // alert("You have successfully logged out.")
     loginForm.reset()
 })
 
@@ -235,17 +234,9 @@ const fetchCityHourlyWeather = (lat, lon, apiKey) => {
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,alerts&appid=${apiKey}`)
         .then(r => r.json())
         .then(hourlyWeather => {
-            // console.log(hourlyWeather)
             renderHourlyWeather(hourlyWeather)
         })
 }
-
-// const fetchCityDailyWeather = (cityName, apiKey) => {
-//     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}`)
-//     .then(r => r.json())
-//     .then(dailyWeather => renderDailyWeather(dailyWeather))
-// }
-
 
 //RENDER FUNCTIONS
 
@@ -276,27 +267,6 @@ const removeSidebarObj = (cityObj) => {
 }
 
 const renderWeather = (weather) => {
-    // console.log(holdACity)
-
-
-    //unix time conversion. not fully successful yet
-    // let sunrise = weather.sys.sunrise
-    // let sunset = weather.sys.sunset
-
-    // let sunsetDate = new Date(sunset * 1000)
-    // let hours = sunsetDate.getHours()
-    // if (hours > 12) {
-    //     hours = hours - 12
-    // }
-    // let minutes = date.getMinutes()
-    // if (minutes.length < 2) {
-    //     minutes = `0${minutes}`  
-    // }
-    // let time = `${hours}:${minutes}`
-
-    // console.log(time)
-
-
     contentDiv.style.display = ""
     currentCity.innerHTML = `
     <table class="city-name">
@@ -312,8 +282,8 @@ const renderWeather = (weather) => {
     <table class="sunrise">
         <tr>
             <td><h1>${weather.main.temp}F</h1></td>
-            <td>🌞${weather.sys.sunrise}</td>
-            <td>🌚${weather.sys.sunset}</td>
+            <td>🌞${convertTime(weather.sys.sunrise)}</td>
+            <td>🌚${convertTime(weather.sys.sunset)}</td>
         </tr>
     </table>
     <table class="feels-like">
@@ -352,8 +322,6 @@ const renderWeather = (weather) => {
         homeBtn.style.display = "none"
     }
     fetchCityHourlyWeather(weather.coord.lat, weather.coord.lon, key)
-    // fetchCityDailyWeather(weather.name, key)
-
 }
 
 const renderChooseCorrectCity = (cities) => {
@@ -385,14 +353,12 @@ const renderChooseCorrectCity = (cities) => {
 }
 
 const renderHourlyWeather = (hourlyData) => {
-    // console.log(hourlyData)
     const tableHeader = hourlyDiv.querySelector(".time")
     tableHeader.innerHTML = ""
     const tableData = hourlyDiv.querySelector(".weather-data")
     tableData.innerHTML = ""
     const weatherIcon = hourlyDiv.querySelector(".weather-icon")
     const humidity = hourlyDiv.querySelector(".humidity")
-    // debugger
     humidity.innerHTML = ""
     weatherIcon.innerHTML = ""
     hourlyData.hourly.splice(0, 6).forEach(hour => {
@@ -413,28 +379,14 @@ const renderHourlyWeather = (hourlyData) => {
     })
 }
 
-// const renderDailyWeather = dailyWeatherData => {
-//     const tableHeader = dailyDiv.querySelector('.day')
-//     const tableHighW = dailyDiv.querySelector('.high')
-//     const tableLowW = dailyDiv.querySelector('.low')
-//     const tableIcon = dailyDiv.querySelector('.weather-icon')
-//     const tableHumidity = dailyDiv.querySelector('.humidity')
-//     dailyWeatherData.list.forEach(day => {
-//         const newHeader = document.createElement("th")
-//         newHeader.textContent = day.dt_txt
-
-//         tableHeader.append(newHeader)
-//     })
-// }
-
 //HELPER FUNCTIONS
 
 const convertTime = unixTime => {
     const newTime = new Date(unixTime * 1000)
     const hours = newTime.getHours()
     let minutes = newTime.getMinutes()
-    if (minutes == 0) {
-        minutes = "00"
+    if (String(minutes).length === 1) {
+        minutes += "0"
     }
     if (hours >= 12) {
         return `${hours}:${minutes} PM`
