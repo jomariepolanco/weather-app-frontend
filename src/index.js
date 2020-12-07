@@ -290,7 +290,7 @@ const renderWeather = (weather) => {
     // }
     // let minutes = date.getMinutes()
     // if (minutes.length < 2) {
-    //     minutes = `0${minutes}`
+    //     minutes = `0${minutes}`  
     // }
     // let time = `${hours}:${minutes}`
 
