@@ -281,7 +281,7 @@ const renderWeather = (weather) => {
     tempDiv.innerHTML = `
     <table class="sunrise">
         <tr>
-            <td><h1>${weather.main.temp}F</h1></td>
+            <td><h1>${parseInt(weather.main.temp)}F</h1></td>
             <td>🌞${convertTime(weather.sys.sunrise)}</td>
             <td>🌚${convertTime(weather.sys.sunset)}</td>
         </tr>
@@ -365,7 +365,7 @@ const renderHourlyWeather = (hourlyData) => {
         const newHeader = document.createElement("th")
         newHeader.textContent = convertTime(hour.dt)
         const temperature = document.createElement("td")
-        temperature.textContent = `${hour.temp}F`
+        temperature.textContent = `${parseInt(hour.temp)} F`
         const iconTableD = document.createElement("td")
         const icon = document.createElement("img")
         icon.src = `http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`

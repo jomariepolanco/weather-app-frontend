@@ -269,6 +269,17 @@ th, td {
   padding-left: 15px;
 }
 
+.weather-data {
+  text-align: center;
+}
+
+.weather-icon {
+  text-align: center;
+}
+.humidity {
+  text-align: center;
+}
+
 .add-city {
   position: relative;
   padding: 10px 10px;
